@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="FinalLabProgramacion_GRUPO3">
+  <ClassDiagramComponents>
+    <Class name="Asiento" package="finallabprogramacion_grupo3" visibility="public" xPosition="494.0" yPosition="278.0">
+      <Fields>
+        <Field name="idAsiento" type="int" visibility="private"/>
+        <Field name="idFuncion" type="Funcion" visibility="private"/>
+        <Field name="codLugar" type="String" visibility="private"/>
+        <Field name="fila" type="char" visibility="private"/>
+        <Field name="numero" type="int" visibility="private"/>
+        <Field name="estado" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Comprador" package="finallabprogramacion_grupo3" visibility="public" xPosition="292.0" yPosition="114.0">
+      <Fields>
+        <Field name="idComprador" type="int" visibility="private"/>
+        <Field name="dni" type="int" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="fechaNac" type="Date" visibility="private"/>
+        <Field name="password" type="String" visibility="private"/>
+        <Field name="medioPago" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Conexion" package="finallabprogramacion_grupo3" visibility="public" xPosition="46.0" yPosition="26.0">
+      <Fields>
+        <Field name="URL" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="USER" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="PASS" type="String" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="conexion" type="Connection" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getConexion" returnType="Connection" visibility="public" isStatic="true"/>
+        <Method name="cerrarConexion" returnType="void" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="FinalLabProgramacion_GRUPO3" package="finallabprogramacion_grupo3" visibility="public" xPosition="34.0" yPosition="243.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Funcion" package="finallabprogramacion_grupo3" visibility="public" xPosition="80.0" yPosition="367.0">
+      <Fields>
+        <Field name="idFuncion" type="int" visibility="private"/>
+        <Field name="idPelicula" type="Pelicula" visibility="private"/>
+        <Field name="idioma" type="String" visibility="private"/>
+        <Field name="es3D" type="boolean" visibility="private"/>
+        <Field name="subtitulada" type="boolean" visibility="private"/>
+        <Field name="horaInicio" type="Date" visibility="private"/>
+        <Field name="horaFin" type="Date" visibility="private"/>
+        <Field name="listaDeLugaresDisponibles" type="ArrayList&lt;Asiento&gt;" visibility="private"/>
+        <Field name="sala" type="Sala" visibility="private"/>
+        <Field name="precio" type="double" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Pelicula" package="finallabprogramacion_grupo3" visibility="public" xPosition="483.0" yPosition="545.0">
+      <Fields>
+        <Field name="idPelicula" type="int" visibility="private"/>
+        <Field name="titulo" type="String" visibility="private"/>
+        <Field name="director" type="String" visibility="private"/>
+        <Field name="actores" type="ArrayList&lt;String&gt;" visibility="private"/>
+        <Field name="origen" type="String" visibility="private"/>
+        <Field name="genero" type="String" visibility="private"/>
+        <Field name="estreno" type="Date" visibility="private"/>
+        <Field name="enCartelera" type="boolean" visibility="private"/>
+        <Field name="funcion" type="ArrayList&lt;Funcion&gt;" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Sala" package="finallabprogramacion_grupo3" visibility="public" xPosition="763.0" yPosition="414.0">
+      <Fields>
+        <Field name="idSala" type="int" visibility="private"/>
+        <Field name="NroSala" type="int" visibility="private"/>
+        <Field name="apta3D" type="boolean" visibility="private"/>
+        <Field name="capacidad" type="int" visibility="private"/>
+        <Field name="estado" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="TicketCompra" package="finallabprogramacion_grupo3" visibility="public" xPosition="755.0" yPosition="148.0">
+      <Fields>
+        <Field name="idTicketCompra" type="int" visibility="private"/>
+        <Field name="idComprador" type="Comprador" visibility="private"/>
+        <Field name="idAsiento" type="Asiento" visibility="private"/>
+        <Field name="fechaCompra" type="Date" visibility="private"/>
+        <Field name="fechaFuncion" type="Date" visibility="private"/>
+        <Field name="monto" type="double" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="idComprador" source="finallabprogramacion_grupo3.TicketCompra" target="finallabprogramacion_grupo3.Comprador" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="sala" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Sala" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="listaDeLugaresDisponibles" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Asiento&gt;"/>
+    <HasRelation name="idAsiento" source="finallabprogramacion_grupo3.TicketCompra" target="finallabprogramacion_grupo3.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="idPelicula" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Pelicula" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="funcion" source="finallabprogramacion_grupo3.Pelicula" target="finallabprogramacion_grupo3.Funcion" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Funcion&gt;"/>
+    <HasRelation name="idFuncion" source="finallabprogramacion_grupo3.Asiento" target="finallabprogramacion_grupo3.Funcion" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
