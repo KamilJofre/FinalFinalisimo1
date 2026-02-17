@@ -104,10 +104,7 @@ public class SalaData {
         
         ArrayList<Funcion> lista = new ArrayList<>();
         
-    String sql = 
-    "SELECT f.* " +
-    "FROM funcion f " +
-    "WHERE f.NroSala = ?";    
+    String sql = "SELECT f.* FROM funcion f WHERE f.NroSala = ?";    
 
 
         try {
@@ -122,17 +119,17 @@ public class SalaData {
                 // Película
                 Pelicula p = new Pelicula();
                 p.setIdPelicula(rs.getInt("idPelicula"));
-                f.setIdPelicula(p);
+                f.setPelicula(p);
                 
                 // Sala
                 Sala s = new Sala();
                 s.setNroSala(rs.getInt("NroSala"));
-                f.setIdSala(s);
+                f.setSala(s);
                 
                 f.setIdioma(rs.getString("idioma"));
                 f.setEs3D(rs.getBoolean("es3D"));
                 f.setSubtitulada(rs.getBoolean("subtitulada"));
-                f.setHoraInicio(rs.getTimestamp("horaInicio"));
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
                 f.setPrecio(rs.getInt("precio"));
                 
                 lista.add(f);

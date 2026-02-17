@@ -11,29 +11,34 @@ package Modelo;
  */
 public class Asiento {
     private int idAsiento;
-    private Funcion idFuncion;
-    private String codLugar;
     private String fila;
     private int numero;
     private boolean estado;
+    private Sala sala;
 
     public Asiento() {}
 
-    public Asiento(int idAsiento, Funcion idFuncion, String codLugar, String fila, int numero, boolean estado) {
+    public Asiento(int idAsiento, String fila, int numero, boolean estado, Sala sala) {
         this.idAsiento = idAsiento;
-        this.idFuncion = idFuncion;
-        this.codLugar = codLugar;
         this.fila = fila;
         this.numero = numero;
         this.estado = estado;
+        this.sala = sala;
     }
 
-    public Asiento(Funcion idFuncion, String codLugar, String fila, int numero, boolean estado) {
-        this.idFuncion = idFuncion;
-        this.codLugar = codLugar;
+    public Asiento( String fila, int numero, boolean estado, Sala sala) {
         this.fila = fila;
         this.numero = numero;
         this.estado = estado;
+        this.sala= sala;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
     }
 
     public int getIdAsiento() {
@@ -42,22 +47,6 @@ public class Asiento {
 
     public void setIdAsiento(int idAsiento) {
         this.idAsiento = idAsiento;
-    }
-
-    public Funcion getIdFuncion() {
-        return idFuncion;
-    }
-
-    public void setIdFuncion(Funcion idFuncion) {
-        this.idFuncion = idFuncion;
-    }
-
-    public String getCodLugar() {
-        return codLugar;
-    }
-
-    public void setCodLugar(String codLugar) {
-        this.codLugar = codLugar;
     }
 
     public String getFila() {

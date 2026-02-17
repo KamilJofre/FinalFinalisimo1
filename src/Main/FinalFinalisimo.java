@@ -23,6 +23,9 @@ public class FinalFinalisimo {
      */
     public static void main(String[] args) {
         
+        /*
+        
+        
         //Conexion a base de datos
         Connection con = Conexion.getConexion();
         
@@ -85,11 +88,11 @@ public class FinalFinalisimo {
         PeliculaData pd = new PeliculaData(con);
 
         // 1) Crear pelicula
-        Pelicula KFP = new Pelicula("Kunf Fu Panda -4", "Jack Black", "USA", "Animacion", true);
+        Pelicula KFP = new Pelicula("Kunf Fu Panda -4", "Jack Black", "USA", "Animacion");
         pd.guardarPelicula(KFP);
 
         // 2) Buscar
-        Pelicula encontrada = pd.buscarPelicula(KFP.getIdPelicula());
+        Pelicula encontrada = pd.buscarPorIdPelicula(KFP.getIdPelicula());
         System.out.println("Película encontrada: " + encontrada.getTitulo());
 
         // 3) Actualizar
@@ -173,7 +176,9 @@ public class FinalFinalisimo {
 //   
 //       
 
-        System.out.println("\n Fin Pruebas");
+        System.out.println("\n Fin Pruebas"); 
+        
+        */
 
     }
 }

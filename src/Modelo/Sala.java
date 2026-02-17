@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author kamil
@@ -64,5 +66,8 @@ public class Sala {
         this.estado = estado;
     }
     
-    
+    @Override
+    public String toString(){
+        return "Sala " + NroSala + (apta3D ? " (3D)" : "");
+    } 
 }

@@ -23,16 +23,16 @@ public class PeliculaData {
 
     //Insertar pelicula
     public void guardarPelicula(Pelicula p){
-        String sql ="INSERT INTO pelicula (titulo, director, origen, genero, enCartelera) "
+        String sql ="INSERT INTO pelicula (titulo, duracion, director, origen, genero) "
                    + "VALUES (?,?,?,?,?)";
         try{
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             ps.setString(1, p.getTitulo());
-            ps.setString(2, p.getDirector());
-            ps.setString(3, p.getOrigen());
-            ps.setString(4, p.getGenero());
-            ps.setBoolean(5, p.isEnCartelera());
+            ps.setDouble(2, p.getDuracion());
+            ps.setString(3, p.getDirector());
+            ps.setString(4, p.getOrigen());
+            ps.setString(5, p.getGenero());
 
             ps.executeUpdate();
             
@@ -47,7 +47,35 @@ public class PeliculaData {
     }
 
     //Buscar
-    public Pelicula buscarPelicula(int idPelicula){
+    public Pelicula buscarPelicula(String titulo){
+        Pelicula p=null;
+        String sql="SELECT * FROM pelicula WHERE titulo=?";
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setString(1, titulo);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                p = new Pelicula(
+                    rs.getInt("idPelicula"),
+                    rs.getString("titulo"),
+                    rs.getInt("duracion"),
+                    rs.getString("director"),
+                    rs.getString("origen"),
+                    rs.getString("genero")
+                );
+            }
+            ps.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar película: " + ex.getMessage());
+        }
+        return p;
+    }
+    
+    //Buscar x ID
+    public Pelicula buscarPorIdPelicula(int idPelicula){
         Pelicula p=null;
         String sql="SELECT * FROM pelicula WHERE idPelicula=?";
         
@@ -60,10 +88,10 @@ public class PeliculaData {
                 p = new Pelicula(
                     rs.getInt("idPelicula"),
                     rs.getString("titulo"),
+                    rs.getInt("duracion"),
                     rs.getString("director"),
                     rs.getString("origen"),
-                    rs.getString("genero"),
-                    rs.getBoolean("enCartelera")
+                    rs.getString("genero")
                 );
             }
             ps.close();
@@ -87,10 +115,10 @@ public class PeliculaData {
                 Pelicula p = new Pelicula(
                         rs.getInt("idPelicula"),
                         rs.getString("titulo"),
+                        rs.getInt("duracion"),
                         rs.getString("director"),
                         rs.getString("origen"),
-                        rs.getString("genero"),
-                        rs.getBoolean("enCartelera")
+                        rs.getString("genero")
                 );
                 lista.add(p);
             }
@@ -103,16 +131,16 @@ public class PeliculaData {
 
     //Actualizar
     public void actualizarPelicula(Pelicula p) {
-        String sql = "UPDATE pelicula SET titulo=?, director=?, origen=?, genero=?, enCartelera=? "
+        String sql = "UPDATE pelicula SET titulo=?, duracion=?, director=?, origen=?, genero=?"
                    + "WHERE idPelicula=?";
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             ps.setString(1, p.getTitulo());
-            ps.setString(2, p.getDirector());
-            ps.setString(3, p.getOrigen());
-            ps.setString(4, p.getGenero());
-            ps.setBoolean(5, p.isEnCartelera());
+            ps.setDouble(2, p.getDuracion());
+            ps.setString(3, p.getDirector());
+            ps.setString(4, p.getOrigen());
+            ps.setString(5, p.getGenero());
             ps.setInt(6, p.getIdPelicula());
 
             ps.executeUpdate();

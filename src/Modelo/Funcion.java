@@ -4,8 +4,9 @@
  */
 package Modelo;
 
-import Modelo.*;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -13,26 +14,26 @@ import java.util.Date;
  */
 public class Funcion {
     private int idFuncion;
-    private Pelicula idPelicula;
-    private Sala idSala;
+    private Pelicula pelicula;
+    private Sala sala;
     private String idioma;
     private boolean es3D; 
     private boolean subtitulada;
-    private Date fechaFuncion;
-    private Date horaInicio;
+    private LocalDate fechaFuncion;
+    private LocalTime horaInicio;
     private double precio;
     
-    
-
 
 
     public Funcion() {
     }
 
-    public Funcion(int idFuncion, Pelicula idPelicula, Sala idSala, String idioma, boolean es3D, boolean subtitulada, Date fechaFuncion, Date horaInicio, double precio) {
+    public Funcion(int idFuncion, Pelicula pelicula, Sala sala, 
+            String idioma, boolean es3D, boolean subtitulada, 
+            LocalDate fechaFuncion, LocalTime horaInicio, double precio) {
         this.idFuncion = idFuncion;
-        this.idPelicula = idPelicula;
-        this.idSala = idSala;
+        this.pelicula = pelicula;
+        this.sala = sala;
         this.idioma = idioma;
         this.es3D = es3D;
         this.subtitulada = subtitulada;
@@ -41,9 +42,10 @@ public class Funcion {
         this.precio = precio;
     }
 
-    public Funcion(Pelicula idPelicula, Sala idSala, String idioma, boolean es3D, boolean subtitulada, Date fechaFuncion, Date horaInicio,double precio) {
-        this.idPelicula = idPelicula;
-        this.idSala = idSala;
+    public Funcion(Pelicula pelicula, Sala sala, String idioma, boolean es3D, 
+            boolean subtitulada, LocalDate fechaFuncion, LocalTime horaInicio,double precio) {
+        this.pelicula = pelicula;
+        this.sala = sala;
         this.idioma = idioma;
         this.es3D = es3D;
         this.subtitulada = subtitulada;
@@ -62,20 +64,20 @@ public class Funcion {
         this.idFuncion = idFuncion;
     }
 
-    public Pelicula getIdPelicula() {
-        return idPelicula;
+    public Pelicula getPelicula() {
+        return pelicula;
     }
 
-    public void setIdPelicula(Pelicula idPelicula) {
-        this.idPelicula = idPelicula;
+    public void setPelicula(Pelicula pelicula) {
+        this.pelicula = pelicula;
     }
 
-    public Sala getIdSala() {
-        return idSala;
+    public Sala getSala() {
+        return sala;
     }
 
-    public void setIdSala(Sala idSala) {
-        this.idSala = idSala;
+    public void setSala(Sala sala) {
+        this.sala = sala;
     }
 
     public String getIdioma() {
@@ -102,19 +104,19 @@ public class Funcion {
         this.subtitulada = subtitulada;
     }
 
-    public Date getFechaFuncion() {
+    public LocalDate getFechaFuncion() {
         return fechaFuncion;
     }
 
-    public void setFechaFuncion(Date fechaFuncion) {
+    public void setFechaFuncion(LocalDate fechaFuncion) {
         this.fechaFuncion = fechaFuncion;
     }
 
-    public Date getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 

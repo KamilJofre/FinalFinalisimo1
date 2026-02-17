@@ -4,19 +4,46 @@
  */
 package Vista;
 
+import Modelo.Pelicula;
+import Persistencia.Conexion;
+import Persistencia.PeliculaData;
+import java.sql.Connection;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author kamil
  */
 public class vistaCartelera extends javax.swing.JFrame {
-    
+    private PeliculaData PeliculaData;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaCartelera.class.getName());
-
+    Connection con = Conexion.getConexion();
+    PeliculaData pd = new PeliculaData(con);
+    
+    
     /**
      * Creates new form vistaCartelera
      */
     public vistaCartelera() {
         initComponents();
+        PeliculaData  = new PeliculaData(Conexion.getConexion());
+        cargarTablaPeliculas();
+    }
+    
+    private void cargarTablaPeliculas() {
+    DefaultTableModel modelo = new DefaultTableModel(
+    new Object[]{"Titulo", "Director", "Origen", "Genero"},0
+        );
+        jTableCartelera.setModel(modelo);
+
+        for (Pelicula p : PeliculaData.listarPeliculas()) {
+            modelo.addRow(new Object[]{
+                p.getTitulo(),
+                p.getDirector(),
+                p.getOrigen(),
+                p.getGenero()
+            });
+        }
     }
 
     /**
@@ -28,21 +55,64 @@ public class vistaCartelera extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableCartelera = new javax.swing.JTable();
+        jButtonVolverSeleccion = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTableCartelera.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTableCartelera);
+
+        jButtonVolverSeleccion.setText("VOLVER");
+        jButtonVolverSeleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVolverSeleccionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                    .addComponent(jButtonVolverSeleccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonVolverSeleccion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonVolverSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverSeleccionActionPerformed
+        // TODO add your handling code here:
+        jButtonVolverSeleccion.addActionListener(e -> {
+            Seleccion ventana = new Seleccion();
+            ventana.setVisible(true);
+            this.dispose(); // Cierra la ventana actual
+        });
+    }//GEN-LAST:event_jButtonVolverSeleccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +140,8 @@ public class vistaCartelera extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonVolverSeleccion;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableCartelera;
     // End of variables declaration//GEN-END:variables
 }

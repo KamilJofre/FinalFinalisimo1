@@ -56,7 +56,7 @@
         <Field name="es3D" type="boolean" visibility="private"/>
         <Field name="subtitulada" type="boolean" visibility="private"/>
         <Field name="horaInicio" type="Date" visibility="private"/>
-        <Field name="horaFin" type="Date" visibility="private"/>
+        <Field name="fecha" type="Date" visibility="private"/>
         <Field name="listaDeLugaresDisponibles" type="ArrayList&lt;Asiento&gt;" visibility="private"/>
         <Field name="sala" type="Sala" visibility="private"/>
         <Field name="precio" type="double" visibility="private"/>
@@ -104,12 +104,12 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
+    <HasRelation name="funcion" source="finallabprogramacion_grupo3.Pelicula" target="finallabprogramacion_grupo3.Funcion" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Funcion&gt;"/>
+    <HasRelation name="idPelicula" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Pelicula" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="idAsiento" source="finallabprogramacion_grupo3.TicketCompra" target="finallabprogramacion_grupo3.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="idComprador" source="finallabprogramacion_grupo3.TicketCompra" target="finallabprogramacion_grupo3.Comprador" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="sala" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Sala" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="listaDeLugaresDisponibles" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Asiento&gt;"/>
-    <HasRelation name="idAsiento" source="finallabprogramacion_grupo3.TicketCompra" target="finallabprogramacion_grupo3.Asiento" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="idPelicula" source="finallabprogramacion_grupo3.Funcion" target="finallabprogramacion_grupo3.Pelicula" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="funcion" source="finallabprogramacion_grupo3.Pelicula" target="finallabprogramacion_grupo3.Funcion" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Funcion&gt;"/>
     <HasRelation name="idFuncion" source="finallabprogramacion_grupo3.Asiento" target="finallabprogramacion_grupo3.Funcion" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>

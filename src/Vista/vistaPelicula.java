@@ -7,20 +7,21 @@ import Modelo.Pelicula;
 import Persistencia.Conexion;
 import Persistencia.PeliculaData;
 import java.awt.Color;
-import java.awt.HeadlessException;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author kamil
  */
 public class vistaPelicula extends javax.swing.JFrame {
-
-    
+    private PeliculaData PeliculaData;
+    private JSpinner horaInicio;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaPelicula.class.getName());
 
     Connection con = Conexion.getConexion();
@@ -56,9 +57,30 @@ public class vistaPelicula extends javax.swing.JFrame {
         placeHolder(jTextPeliculaDirector, "DIRECTOR");
         placeHolder(jTextOrigen, "ORIGEN");
         placeHolder(jTextPeliculaGenero, "GENERO");
-        
+        placeHolder(jTextPeliculaDuracion, "DURACION  (en horas)");
+        PeliculaData  = new PeliculaData(Conexion.getConexion());
+        cargarTablaPeliculas();
     }
 
+    
+    void cargarTablaPeliculas() {
+    DefaultTableModel modelo = new DefaultTableModel(
+    new Object[]{"Id Película","Titulo", "Director", "Origen", "Genero"}, 0
+        );
+        jTableListaPeliculas.setModel(modelo);
+
+        for (Pelicula p : PeliculaData.listarPeliculas()) {
+            modelo.addRow(new Object[]{
+                p.getIdPelicula(),
+                p.getTitulo(),
+                p.getDirector(),
+                p.getOrigen(),
+                p.getGenero()
+            });
+        }
+    }
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,12 +95,14 @@ public class vistaPelicula extends javax.swing.JFrame {
         jTextPeliculaDirector = new javax.swing.JTextField();
         jTextOrigen = new javax.swing.JTextField();
         jTextPeliculaGenero = new javax.swing.JTextField();
-        jCheckBoxEnCartelera = new javax.swing.JCheckBox();
+        jTextPeliculaDuracion = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButtonVolver = new javax.swing.JButton();
         jButtonEnviarPelicula = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableListaPeliculas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,10 +150,10 @@ public class vistaPelicula extends javax.swing.JFrame {
             }
         });
 
-        jCheckBoxEnCartelera.setText("EN CARTELERA");
-        jCheckBoxEnCartelera.addActionListener(new java.awt.event.ActionListener() {
+        jTextPeliculaDuracion.setText("TITULO");
+        jTextPeliculaDuracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxEnCarteleraActionPerformed(evt);
+                jTextPeliculaDuracionActionPerformed(evt);
             }
         });
 
@@ -140,15 +164,12 @@ public class vistaPelicula extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextPeliculaDirector, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                    .addComponent(jTextPeliculaDirector)
                     .addComponent(jTextPeliculaTitulo)
                     .addComponent(jTextOrigen)
-                    .addComponent(jTextPeliculaGenero))
+                    .addComponent(jTextPeliculaGenero)
+                    .addComponent(jTextPeliculaDuracion))
                 .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jCheckBoxEnCartelera)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,13 +177,13 @@ public class vistaPelicula extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jTextPeliculaTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextPeliculaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextPeliculaDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextPeliculaGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxEnCartelera)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -175,7 +196,7 @@ public class vistaPelicula extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(82, 82, 82))
         );
@@ -217,12 +238,25 @@ public class vistaPelicula extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonEnviarPelicula)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonVolver)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        jTableListaPeliculas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTableListaPeliculas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,22 +264,28 @@ public class vistaPelicula extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -255,16 +295,18 @@ public class vistaPelicula extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         String titulo = jTextPeliculaTitulo.getText();
+        double duracion= Integer.parseInt(jTextPeliculaDuracion.getText()); 
         String director = jTextPeliculaDirector.getText();
         String origen = jTextOrigen.getText();
         String genero = jTextPeliculaGenero.getText();      
-        boolean cartelera = jCheckBoxEnCartelera.isSelected();
         
-        Pelicula p = new Pelicula(titulo, director, origen, genero,cartelera);
+        Pelicula p = new Pelicula(titulo,duracion, director, origen, genero);
         
         try{
             pd.guardarPelicula(p);
             JOptionPane.showMessageDialog(this, "Pelicula agregada con extio ✅");
+            
+            cargarTablaPeliculas();
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error al agregar pelicula ❌" + e.getMessage());
         }
@@ -306,9 +348,9 @@ public class vistaPelicula extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextPeliculaTituloActionPerformed
 
-    private void jCheckBoxEnCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEnCarteleraActionPerformed
+    private void jTextPeliculaDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPeliculaDuracionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBoxEnCarteleraActionPerformed
+    }//GEN-LAST:event_jTextPeliculaDuracionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,13 +380,15 @@ public class vistaPelicula extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnviarPelicula;
     private javax.swing.JButton jButtonVolver;
-    private javax.swing.JCheckBox jCheckBoxEnCartelera;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableListaPeliculas;
     private javax.swing.JTextField jTextOrigen;
     private javax.swing.JTextField jTextPeliculaDirector;
+    private javax.swing.JTextField jTextPeliculaDuracion;
     private javax.swing.JTextField jTextPeliculaGenero;
     private javax.swing.JTextField jTextPeliculaTitulo;
     // End of variables declaration//GEN-END:variables

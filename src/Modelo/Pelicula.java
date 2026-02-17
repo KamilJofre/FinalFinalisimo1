@@ -4,9 +4,7 @@
  */
 package Modelo;
 
-
 import java.util.Date;
-
 
 /**
  *
@@ -14,35 +12,35 @@ import java.util.Date;
  */
 public class Pelicula {
     private int idPelicula;
+    private double duracion;
     private String titulo;
     private String director;
     private String origen;
     private String genero;
 
-    private boolean enCartelera;
 
     public Pelicula() {
     }
-    
-    public Pelicula(String titulo, String director, 
-            String origen, String genero, boolean enCartelera) {
-        this.titulo = titulo;
-        this.director = director;
-        this.origen = origen;
-        this.genero = genero;
-        this.enCartelera = enCartelera;
-    }
 
-    public Pelicula(int idPelicula, String titulo, String director, 
-            String origen, String genero, boolean enCartelera) {
+    public Pelicula(int idPelicula, String titulo, double duracion,
+            String director, String origen, String genero) {
         this.idPelicula = idPelicula;
         this.titulo = titulo;
+        this.duracion = duracion;
         this.director = director;
-
         this.origen = origen;
         this.genero = genero;
+    }
+    
+    
 
-        this.enCartelera = enCartelera;
+    public Pelicula(String titulo, double duracion,
+            String director, String origen, String genero) {
+        this.titulo = titulo;
+        this.duracion = duracion;
+        this.director = director;
+        this.origen = origen;
+        this.genero = genero;
     }
 
     public int getIdPelicula() {
@@ -59,6 +57,14 @@ public class Pelicula {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public double getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(double duracion) {
+        this.duracion = duracion;
     }
 
     public String getDirector() {
@@ -83,14 +89,5 @@ public class Pelicula {
 
     public void setGenero(String genero) {
         this.genero = genero;
-    }
-
-
-    public boolean isEnCartelera() {
-        return enCartelera;
-    }
-
-    public void setEnCartelera(boolean enCartelera) {
-        this.enCartelera = enCartelera;
     }
 }

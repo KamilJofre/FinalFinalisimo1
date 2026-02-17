@@ -59,12 +59,12 @@ public class vistaSala extends javax.swing.JFrame {
         placeHolder(jTextSalaNumero, "NUMERO");
         placeHolder(jTextCapacidad, "CAPACIDAD");
         SalaData = new SalaData(Conexion.getConexion());
-
-    cargarTablaSalas();
+        cargarTablaSalas();
     }
+    
     private void cargarTablaSalas() {
     DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Nro Sala", "Capacidad", "3D", "Estado"}, 0
+    new Object[]{"Nro Sala", "Capacidad", "3D"}, 0
         );
         jTableSalas.setModel(modelo);
 
@@ -72,8 +72,7 @@ public class vistaSala extends javax.swing.JFrame {
             modelo.addRow(new Object[]{
                 s.getNroSala(),
                 s.getCapacidad(),
-                s.isApta3D(),
-                s.isEstado()
+                s.isApta3D()
             });
         }
     }
@@ -232,7 +231,7 @@ public class vistaSala extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -268,6 +267,8 @@ public class vistaSala extends javax.swing.JFrame {
         try{
             pd.insertar(s);
             JOptionPane.showMessageDialog(this, "Sala agregada correctamente ✅");
+            
+            cargarTablaSalas();
         } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(this, "Error al agregar la sala ❌\n" + e.getMessage());
         }
