@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.Asiento;
+import Modelo.Funcion;
 import Modelo.Sala;
 import Persistencia.Conexion;
 import Persistencia.SalaData;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 
 
 public class vistaAsiento extends javax.swing.JFrame {
+    
     private static final Logger logger = Logger.getLogger(vistaAsiento.class.getName());
     Connection con = (Connection) Conexion.getConexion();
     private SalaData SalaData;
@@ -25,6 +27,19 @@ public class vistaAsiento extends javax.swing.JFrame {
         
         for(Sala s : SalaData.listarSalas()){
             jComboBoxSala.addItem(s);
+        }
+        System.out.println("a");
+    }
+    
+    public void cargarFunciones(){
+        jComboBoxFuncion.removeAllItems();
+        
+        Sala salaSeleccionada = (Sala) jComboBoxSala.getSelectedItem();
+        
+        if(salaSeleccionada!=null){
+            for(Funcion f: SalaData.listarFuncionesDeSala(salaSeleccionada.getNroSala())){
+                jComboBoxFuncion.addItem(f);
+            }
         }
     }
     
@@ -58,65 +73,90 @@ public class vistaAsiento extends javax.swing.JFrame {
   
     public vistaAsiento() {
         initComponents();
-        placeHolder(jTextAsientoNumero, "NUMERO ASIENTO");
-        placeHolder(jTextAsientoFila, "FILA ASIENTO ");
-        
+//        placeHolder(jTextAsientoNumero, "NUMERO ASIENTO");
+//        placeHolder(jTextAsientoFila, "FILA ASIENTO ");
+//        
         SalaData = new SalaData(con);
         cargarSalas();
-        
-        
+        jComboBoxSala.addActionListener(e->cargarFunciones());       
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
         jPanel4 = new javax.swing.JPanel();
-        jTextAsientoFila = new javax.swing.JTextField();
-        jTextAsientoNumero = new javax.swing.JTextField();
         jComboBoxSala = new javax.swing.JComboBox<>();
+        jComboBoxFuncion = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        label2 = new java.awt.Label();
         jPanel2 = new javax.swing.JPanel();
         ResultadoFuncion2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButtonVolver = new javax.swing.JButton();
 
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel4.setBackground(new java.awt.Color(100, 149, 237));
 
-        jTextAsientoFila.setText("FILA");
-        jTextAsientoFila.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextAsientoFilaActionPerformed(evt);
-            }
-        });
-
-        jTextAsientoNumero.setText("NUMERO");
-        jTextAsientoNumero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextAsientoNumeroActionPerformed(evt);
-            }
-        });
-
-        jComboBoxSala.setToolTipText("");
+        jComboBoxSala.setToolTipText("SELECCIONE SALA");
         jComboBoxSala.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxSalaActionPerformed(evt);
             }
         });
 
+        jComboBoxFuncion.setToolTipText("");
+        jComboBoxFuncion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxFuncionActionPerformed(evt);
+            }
+        });
+
+        label2.setAlignment(java.awt.Label.CENTER);
+        label2.setBackground(new java.awt.Color(0, 0, 51));
+        label2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        label2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        label2.setForeground(new java.awt.Color(255, 255, 255));
+        label2.setText("PANTALLA");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 196, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBoxSala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextAsientoFila, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextAsientoNumero))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxSala, javax.swing.GroupLayout.Alignment.LEADING, 0, 334, Short.MAX_VALUE)
+                    .addComponent(jComboBoxFuncion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,10 +164,10 @@ public class vistaAsiento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jComboBoxSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextAsientoNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextAsientoFila, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(100, 149, 237));
@@ -138,17 +178,17 @@ public class vistaAsiento extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(ResultadoFuncion2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(150, Short.MAX_VALUE)
+                .addComponent(ResultadoFuncion2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ResultadoFuncion2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(100, 149, 237));
@@ -194,34 +234,26 @@ public class vistaAsiento extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextAsientoFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextAsientoFilaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextAsientoFilaActionPerformed
-
-    private void jTextAsientoNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextAsientoNumeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextAsientoNumeroActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
         jButtonVolver.addActionListener(e -> {
@@ -238,13 +270,17 @@ public class vistaAsiento extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Sala salaSeleccionada = (Sala) jComboBoxSala.getSelectedItem();
         int idSala = salaSeleccionada.getNroSala();
-        int numero = Integer.parseInt(jTextAsientoNumero.getText());
-        String fila = jTextAsientoFila.getText();
+//        int numero = Integer.parseInt(jTextAsientoNumero.getText());
+//        String fila = jTextAsientoFila.getText();
         boolean estado = true; //true=libre | false=ocupado//
         
-        Asiento a = new Asiento(fila, numero, estado, salaSeleccionada);
+//        Asiento a = new Asiento(fila, numero, estado, salaSeleccionada);
          
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBoxFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxFuncionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxFuncionActionPerformed
 
     
     public static void main(String args[]) {
@@ -273,11 +309,13 @@ public class vistaAsiento extends javax.swing.JFrame {
     private javax.swing.JLabel ResultadoFuncion2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonVolver;
+    private javax.swing.JComboBox<Funcion> jComboBoxFuncion;
     private javax.swing.JComboBox<Sala> jComboBoxSala;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField jTextAsientoFila;
-    private javax.swing.JTextField jTextAsientoNumero;
+    private java.awt.Label label2;
     // End of variables declaration//GEN-END:variables
 }

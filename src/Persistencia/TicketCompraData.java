@@ -28,7 +28,7 @@ public class TicketCompraData {
             ps.setInt(1, t.getIdComprador().getDni());
             ps.setInt(2, t.getIdAsiento().getIdAsiento());
             ps.setInt(3, t.getIdFuncion().getIdFuncion());
-            ps.setTimestamp(4, new Timestamp(t.getFechaCompra().getTime()));
+            ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
 
             ps.executeUpdate();
@@ -76,7 +76,7 @@ public class TicketCompraData {
                         c,
                         a,
                         f,
-                        rs.getTimestamp("fechaCompra"),
+                        rs.getDate("fechaCompra").toLocalDate(),
                         rs.getDouble("monto")
                 );
             }
@@ -123,7 +123,7 @@ public class TicketCompraData {
                 f.setIdFuncion(rs.getInt("idFuncion"));
                 t.setIdFuncion(f);
 
-                t.setFechaCompra(rs.getTimestamp("fechaCompra"));
+                t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
                 t.setMonto(rs.getDouble("monto"));
 
                 lista.add(t);
@@ -150,7 +150,7 @@ public class TicketCompraData {
             ps.setInt(1, t.getIdComprador().getDni());
             ps.setInt(2, t.getIdAsiento().getIdAsiento());
             ps.setInt(3, t.getIdFuncion().getIdFuncion());
-            ps.setTimestamp(4, new Timestamp(t.getFechaCompra().getTime()));
+            ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
             ps.setInt(6, t.getIdTicketCompra());
 

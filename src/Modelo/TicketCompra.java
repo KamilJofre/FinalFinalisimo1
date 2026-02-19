@@ -4,7 +4,7 @@
  */
 package Modelo;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -15,13 +15,13 @@ public class TicketCompra {
     private Comprador idComprador;
     private Asiento idAsiento;
     private Funcion idFuncion;
-    private Date fechaCompra;
+    private LocalDate fechaCompra;
     private double monto;
 
     public TicketCompra() {
     }
 
-    public TicketCompra(int idTicketCompra, Comprador idComprador, Asiento idAsiento, Funcion idFuncion, Date fechaCompra, double monto) {
+    public TicketCompra(int idTicketCompra, Comprador idComprador, Asiento idAsiento, Funcion idFuncion, LocalDate fechaCompra, double monto) {
         this.idTicketCompra = idTicketCompra;
         this.idComprador = idComprador;
         this.idAsiento = idAsiento;
@@ -30,7 +30,7 @@ public class TicketCompra {
         this.monto = monto;
     }
 
-    public TicketCompra(Comprador idComprador, Asiento idAsiento, Funcion idFuncion, Date fechaCompra, double monto) {
+    public TicketCompra(Comprador idComprador, Asiento idAsiento, Funcion idFuncion, LocalDate fechaCompra, double monto) {
         this.idComprador = idComprador;
         this.idAsiento = idAsiento;
         this.idFuncion = idFuncion;
@@ -62,11 +62,11 @@ public class TicketCompra {
         this.idAsiento = idAsiento;
     }
 
-    public Date getFechaCompra() {
+    public LocalDate getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(Date fechaCompra) {
+    public void setFechaCompra(LocalDate fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 

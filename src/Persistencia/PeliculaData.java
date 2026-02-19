@@ -29,7 +29,7 @@ public class PeliculaData {
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             ps.setString(1, p.getTitulo());
-            ps.setDouble(2, p.getDuracion());
+            ps.setInt(2, p.getDuracion());
             ps.setString(3, p.getDirector());
             ps.setString(4, p.getOrigen());
             ps.setString(5, p.getGenero());
@@ -137,7 +137,7 @@ public class PeliculaData {
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             ps.setString(1, p.getTitulo());
-            ps.setDouble(2, p.getDuracion());
+            ps.setInt(2, p.getDuracion());
             ps.setString(3, p.getDirector());
             ps.setString(4, p.getOrigen());
             ps.setString(5, p.getGenero());

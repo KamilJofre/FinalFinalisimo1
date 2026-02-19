@@ -18,8 +18,8 @@ public class FuncionData {
 
     //insertar funcion
     public void guardarFuncion(Funcion f) {
-        String sql = "INSERT INTO funcion (idPelicula , nroSala, idioma, es3D, subtitulada, fechaFuncion, horaInicio, precio) "
-                   + "VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO funcion (idPelicula , nroSala, idioma, es3D, subtitulada, fechaFuncion, horaInicio, horaFin, precio) "
+                   + "VALUES (?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -31,7 +31,8 @@ public class FuncionData {
             ps.setBoolean(5, f.isSubtitulada());
             ps.setDate(6, java.sql.Date.valueOf(f.getFechaFuncion()));
             ps.setTime(7, java.sql.Time.valueOf(f.getHoraInicio()));
-            ps.setDouble(8, f.getPrecio());
+            ps.setTime(8, java.sql.Time.valueOf(f.getHoraFin()));
+            ps.setDouble(9, f.getPrecio());
 
             ps.executeUpdate();
 
@@ -75,6 +76,7 @@ public class FuncionData {
                     rs.getBoolean("subtitulada"),
                     rs.getDate("fechaFuncion").toLocalDate(),
                     rs.getTime("horaInicio").toLocalTime(),  
+                    rs.getTime("horaFin").toLocalTime(),
                     rs.getDouble("precio")        
                 );
             }
@@ -96,6 +98,7 @@ public class FuncionData {
                         f.idFuncion,
                         f.fechaFuncion,
                         f.horaInicio,
+                        f.horaFin,
                         f.idioma,
                         f.es3D,
                         f.subtitulada,
@@ -130,7 +133,8 @@ public class FuncionData {
                 f.setEs3D(rs.getBoolean("es3D"));
                 f.setSubtitulada(rs.getBoolean("subtitulada"));
                 f.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
-                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());        
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());    
+                f.setHoraFin(rs.getTime("horaFin").toLocalTime());        
                 f.setPrecio(rs.getDouble("precio"));            
 
                 lista.add(f);
@@ -147,7 +151,8 @@ public class FuncionData {
 
     //Actualizar
     public void actualizarFuncion(Funcion f) {
-        String sql = "UPDATE funcion SET sala=?, pelicula=?, idioma=?, es3D=?, subtitulada=?, fechaFuncion=?, horaInicio=?, precio=? "
+        String sql = "UPDATE funcion SET sala=?, pelicula=?, idioma=?, es3D=?, subtitulada=?, fechaFuncion=?,"
+                +" horaInicio=?,  horaFin=?,precio=? "
                    + "WHERE idFuncion=?";
 
         try {
@@ -160,6 +165,7 @@ public class FuncionData {
             ps.setBoolean(5, f.isSubtitulada());
             ps.setDate(6, java.sql.Date.valueOf(f.getFechaFuncion()));
             ps.setTime(7, java.sql.Time.valueOf(f.getHoraInicio()));
+            ps.setTime(8,java.sql.Time.valueOf(f.getHoraFin()));
             ps.setDouble(9, f.getPrecio());
 
             ps.executeUpdate();

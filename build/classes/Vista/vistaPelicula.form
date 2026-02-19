@@ -137,7 +137,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextPeliculaDuracion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="TITULO"/>
+            <Property name="text" type="java.lang.String" value="DURACION"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextPeliculaDuracionActionPerformed"/>

@@ -4,7 +4,6 @@
  */
 package Modelo;
 
-import java.util.Date;
 
 /**
  *
@@ -12,7 +11,7 @@ import java.util.Date;
  */
 public class Pelicula {
     private int idPelicula;
-    private double duracion;
+    private int duracion;
     private String titulo;
     private String director;
     private String origen;
@@ -22,7 +21,7 @@ public class Pelicula {
     public Pelicula() {
     }
 
-    public Pelicula(int idPelicula, String titulo, double duracion,
+    public Pelicula(int idPelicula, String titulo, int duracion,
             String director, String origen, String genero) {
         this.idPelicula = idPelicula;
         this.titulo = titulo;
@@ -34,7 +33,7 @@ public class Pelicula {
     
     
 
-    public Pelicula(String titulo, double duracion,
+    public Pelicula(String titulo, int duracion,
             String director, String origen, String genero) {
         this.titulo = titulo;
         this.duracion = duracion;
@@ -59,11 +58,11 @@ public class Pelicula {
         this.titulo = titulo;
     }
 
-    public double getDuracion() {
+    public int getDuracion() {
         return duracion;
     }
 
-    public void setDuracion(double duracion) {
+    public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
 

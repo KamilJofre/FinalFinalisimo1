@@ -26,6 +26,8 @@ public class vistaPelicula extends javax.swing.JFrame {
 
     Connection con = Conexion.getConexion();
     PeliculaData pd = new PeliculaData(con);
+    
+    
     public void placeHolder(JTextField txt, String texto){
         Color colorPlaceholder = new Color(0,0,0,120);
         Color colorTexto = Color.BLACK;
@@ -57,7 +59,7 @@ public class vistaPelicula extends javax.swing.JFrame {
         placeHolder(jTextPeliculaDirector, "DIRECTOR");
         placeHolder(jTextOrigen, "ORIGEN");
         placeHolder(jTextPeliculaGenero, "GENERO");
-        placeHolder(jTextPeliculaDuracion, "DURACION  (en horas)");
+        placeHolder(jTextPeliculaDuracion, "DURACION  (en minutos)");
         PeliculaData  = new PeliculaData(Conexion.getConexion());
         cargarTablaPeliculas();
     }
@@ -65,14 +67,18 @@ public class vistaPelicula extends javax.swing.JFrame {
     
     void cargarTablaPeliculas() {
     DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Id Película","Titulo", "Director", "Origen", "Genero"}, 0
+    new Object[]{"Id Película","Titulo","Duracion", "Director", "Origen", "Genero"}, 0
         );
         jTableListaPeliculas.setModel(modelo);
 
         for (Pelicula p : PeliculaData.listarPeliculas()) {
+            int minutos=p.getDuracion();
+            int horas = p.getDuracion()/60;
+            int restante = p.getDuracion()%60;
             modelo.addRow(new Object[]{
                 p.getIdPelicula(),
                 p.getTitulo(),
+                horas+"h"+restante+"m",
                 p.getDirector(),
                 p.getOrigen(),
                 p.getGenero()
@@ -150,7 +156,7 @@ public class vistaPelicula extends javax.swing.JFrame {
             }
         });
 
-        jTextPeliculaDuracion.setText("TITULO");
+        jTextPeliculaDuracion.setText("DURACION");
         jTextPeliculaDuracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextPeliculaDuracionActionPerformed(evt);
@@ -295,7 +301,7 @@ public class vistaPelicula extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         String titulo = jTextPeliculaTitulo.getText();
-        double duracion= Integer.parseInt(jTextPeliculaDuracion.getText()); 
+        int duracion= Integer.parseInt(jTextPeliculaDuracion.getText()); 
         String director = jTextPeliculaDirector.getText();
         String origen = jTextOrigen.getText();
         String genero = jTextPeliculaGenero.getText();      

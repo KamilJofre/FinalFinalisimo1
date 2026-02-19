@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Modelo.*;
+import Modelo.*; 
 import Persistencia.*;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -15,6 +15,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Stream;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -34,6 +36,31 @@ public class vistaFuncion extends javax.swing.JFrame {
     Connection con = Conexion.getConexion();
     FuncionData pd = new FuncionData(con);
 
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaFuncion.class.getName());
+
+    /**
+     * Creates new form vistaFuncion
+     */
+    public vistaFuncion() {
+        initComponents();
+        FuncionData = new FuncionData(Conexion.getConexion());
+        PeliculaData = new PeliculaData(Conexion.getConexion());
+        SalaData = new SalaData(Conexion.getConexion());
+        cargarTablaSalas();
+        cargarTablaFunciones();
+        cargarTablaPeliculas();
+        placeHolder(jTextNumeroSala, "NUMERO SALA");
+        placeHolder(jTextFuncionPelicula, "PELICULA");
+        placeHolder(jTextFuncionIdioma, "IDIOMA");
+        placeHolder(jTextFuncionPrecio, "PRECIO");
+        placeHolder(jTextFieldFuncionEliminar,"Id Funcion");
+        
+        SpinnerDateModel modeloHora= new SpinnerDateModel();
+        jSpinnerHoraInicio.setModel(modeloHora);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(jSpinnerHoraInicio,"HH:mm");
+        jSpinnerHoraInicio.setEditor(editor);
+    }
+    
     public void placeHolder(JTextField txt, String texto){
         Color colorPlaceholder = new Color(0,0,0,120);
         Color colorTexto = Color.BLACK;
@@ -59,83 +86,69 @@ public class vistaFuncion extends javax.swing.JFrame {
             }   
         });
     }
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaFuncion.class.getName());
-
-    /**
-     * Creates new form vistaFuncion
-     */
-    public vistaFuncion() {
-        initComponents();
-        FuncionData = new FuncionData(Conexion.getConexion());
-        PeliculaData = new PeliculaData(Conexion.getConexion());
-        SalaData = new SalaData(Conexion.getConexion());
-        cargarTablaSalas();
-        cargarTablaFunciones();
-        cargarTablaPeliculas();
-        placeHolder(jTextNumeroSala, "NUMERO SALA");
-        placeHolder(jTextFuncionPelicula, "PELICULA");
-        placeHolder(jTextFuncionIdioma, "IDIOMA");
-        placeHolder(jTextFuncionPrecio, "PRECIO");
-        
-        SpinnerDateModel modeloHora= new SpinnerDateModel();
-        jSpinnerHoraInicio.setModel(modeloHora);
-        
-        JSpinner.DateEditor editor = new JSpinner.DateEditor(jSpinnerHoraInicio,"HH:mm");
-        jSpinnerHoraInicio.setEditor(editor);
-    }
-    
     private void cargarTablaSalas() {
     DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Nro Sala", "Capacidad", "3D", "Estado"}, 0
+    new Object[]{"Nro Sala", "Capacidad", "Apta 3D", "Estado"}, 0
         );
         jTableSalas.setModel(modelo);
-
+        
         for (Sala s : SalaData.listarSalas()) {
+            String es3d;
+            if(s.isApta3D()){
+                es3d="Si.";
+            } else{
+                es3d="No.";
+            }
             modelo.addRow(new Object[]{
                 s.getNroSala(),
                 s.getCapacidad(),
-                s.isApta3D(),
+                es3d,
                 s.isEstado()
             });
         }
     }
-    
     private void cargarTablaFunciones() {
     DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Id Funcion","Numero Sala", "Pelicula", "Idioma", "Fecha","Hora Inicio","Precio"}, 0
+    new Object[]{"Id Funcion","Numero Sala", "Pelicula", "Idioma", "Fecha","Hora Inicio","Hora Fin","Precio"}, 0
         );
         jTableListaFunciones.setModel(modelo);
 
         for (Funcion f : FuncionData.listarFunciones()) {
+//            if(f.isEs3D()){
+//                String titulo3d= f.getPelicula().getTitulo()+"(3D)";
+//            }
             modelo.addRow(new Object[]{
                 f.getIdFuncion(),
                 f.getSala().getNroSala(),
-                f.getPelicula().getTitulo(),
+                f.getPelicula().getTitulo() + (f.isEs3D() ? " (3D)" : ""),
                 f.getIdioma(),
                 f.getFechaFuncion(),
                 f.getHoraInicio(),
+                f.getHoraFin(),
                 f.getPrecio()
             });
         }
     }
-    
     void cargarTablaPeliculas() {
     DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Id Película","Titulo", "Director", "Origen", "Genero"}, 0
+    new Object[]{"Id Película","Titulo", "Duracion","Director", "Origen", "Genero"}, 0
         );
         jTableListaPeliculas.setModel(modelo);
-
         for (Pelicula p : PeliculaData.listarPeliculas()) {
+            int minutos=p.getDuracion();
+            int horas = p.getDuracion()/60;
+            int restante = p.getDuracion()%60;
+            
             modelo.addRow(new Object[]{
                 p.getIdPelicula(),
                 p.getTitulo(),
+                horas+"h"+restante+"m",
                 p.getDirector(),
                 p.getOrigen(),
                 p.getGenero()
             });
         }
     }
-    
     private void inicializarSpinnerHora() {
         SpinnerDateModel modeloHora =
             new SpinnerDateModel(new Date(), null, null, Calendar.MINUTE);
@@ -145,12 +158,7 @@ public class vistaFuncion extends javax.swing.JFrame {
         horaInicio.setEditor(editor);
         jSpinnerHoraInicio.add(horaInicio); // panel donde lo querés mostrar
     }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -168,12 +176,18 @@ public class vistaFuncion extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButtonVolver = new javax.swing.JButton();
         jButtonEnviarFuncion = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListaFunciones = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableListaPeliculas = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableSalas = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableListaPeliculas = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jTextFieldFuncionEliminar = new javax.swing.JTextField();
+        jButtonEliminarFuncion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -230,43 +244,35 @@ public class vistaFuncion extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jTextFuncionIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFuncionPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jDateFechaFuncion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jCheckBoxFuncion3D, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextFuncionPrecio, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jSpinnerHoraInicio, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCheckBoxFuncionSubt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jTextNumeroSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jTextFuncionPelicula)
+                    .addComponent(jTextFuncionIdioma)
+                    .addComponent(jDateFechaFuncion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSpinnerHoraInicio)
+                    .addComponent(jTextFuncionPrecio)
+                    .addComponent(jTextNumeroSala)
+                    .addComponent(jCheckBoxFuncionSubt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBoxFuncion3D, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextNumeroSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextNumeroSala)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFuncionPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFuncionPelicula)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFuncionIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFuncionIdioma)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateFechaFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDateFechaFuncion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpinnerHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSpinnerHoraInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFuncionPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFuncionPrecio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxFuncionSubt)
+                .addComponent(jCheckBoxFuncionSubt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxFuncion3D)
+                .addComponent(jCheckBoxFuncion3D, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -278,17 +284,17 @@ public class vistaFuncion extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addComponent(jLabel4)
-                .addGap(49, 49, 49))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(100, 149, 237));
@@ -328,6 +334,8 @@ public class vistaFuncion extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+
         jTableListaFunciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -339,20 +347,21 @@ public class vistaFuncion extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableListaFunciones.setShowGrid(false);
         jScrollPane1.setViewportView(jTableListaFunciones);
 
-        jTableListaPeliculas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTableListaPeliculas);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jPanel6.setBackground(new java.awt.Color(0, 0, 0));
 
         jTableSalas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -365,7 +374,83 @@ public class vistaFuncion extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableSalas.setShowGrid(false);
         jScrollPane3.setViewportView(jTableSalas);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
+
+        jTableListaPeliculas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableListaPeliculas.setShowGrid(false);
+        jScrollPane2.setViewportView(jTableListaPeliculas);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jPanel7.setBackground(new java.awt.Color(100, 149, 237));
+
+        jTextFieldFuncionEliminar.setText("ID FUCION A ELIMINAR");
+        jTextFieldFuncionEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFuncionEliminarActionPerformed(evt);
+            }
+        });
+
+        jButtonEliminarFuncion.setText("ELIMINAR FUNCION");
+        jButtonEliminarFuncion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarFuncionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldFuncionEliminar)
+                    .addComponent(jButtonEliminarFuncion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldFuncionEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEliminarFuncion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -376,31 +461,34 @@ public class vistaFuncion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -417,10 +505,15 @@ public class vistaFuncion extends javax.swing.JFrame {
  
     private void jButtonEnviarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarFuncionActionPerformed
         // SALA
-        int nroSala = Integer.parseInt(jTextNumeroSala.getText());
+        String textoSala = jTextNumeroSala.getText().trim();
+        if (textoSala.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un número de sala.");
+            return;
+        } 
+        int nroSala= Integer.parseInt(textoSala);
         Sala sala = SalaData.buscarSala(nroSala);
-        if (sala == null) {
-            JOptionPane.showMessageDialog(this, "La sala no existe");
+        if(sala == null){
+            JOptionPane.showMessageDialog(this, "La sala no existe.");
             return;
         }
         
@@ -436,14 +529,18 @@ public class vistaFuncion extends javax.swing.JFrame {
         Date utilDate = jDateFechaFuncion.getDate(); //BUSCAR FECHA
         if(utilDate==null){
             JOptionPane.showMessageDialog(this, "Seleccione una fecha");
-        }LocalDate fecha = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();//SETEAR FECHA
+            return;
+        }
+        LocalDate fecha = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();//SETEAR FECHA
         
         //HORA
         Date utilTime = (Date) jSpinnerHoraInicio.getValue(); //BUSCA HORA
         if(utilTime==null){
             JOptionPane.showMessageDialog(this, "Seleccione un horario");
-        }LocalTime horaInicio= utilTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();//SETEA HORA
-        
+            return;
+        }
+        LocalTime horaInicio= utilTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();//SETEA HORA
+        LocalTime horaFin= horaInicio.plusMinutes(pelicula.getDuracion());
         
         //MEH
         String idioma = jTextFuncionIdioma.getText();
@@ -451,18 +548,31 @@ public class vistaFuncion extends javax.swing.JFrame {
         boolean es3d= jCheckBoxFuncion3D.isSelected();
         boolean esSubtitulada =jCheckBoxFuncionSubt.isSelected();
         
-        if(es3d){precio+= 500;}
+        if(Stream.of(pelicula , sala,idioma , es3d, esSubtitulada,fecha, horaInicio,horaFin, precio).anyMatch(Objects::isNull )){
+            JOptionPane.showMessageDialog(this, "❌ Asegurese de completar el formulario ❌");
+            return;
+        }
         
-        Funcion f = new Funcion (pelicula , sala,idioma , es3d, esSubtitulada,fecha, horaInicio, precio);
+        if(es3d){
+            precio*= 2;
+            if(!sala.isApta3D()){
+                JOptionPane.showMessageDialog(this, "❌ La sala no es apta para peliculas 3D ❌");
+                return;
+            }
+        }
+        
+        Funcion f = new Funcion (pelicula , sala,idioma , es3d, esSubtitulada,fecha, horaInicio,horaFin, precio);
         
         try{
             pd.guardarFuncion(f);
-            JOptionPane.showMessageDialog(this, "Funcion agregada con extio ✅");
-            
+            JOptionPane.showMessageDialog(this, "✅ Funcion agregada con extio ✅");
+
             cargarTablaFunciones();
         } catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Funcion al agregar pelicula ❌" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "❌ Funcion al agregar pelicula ❌" + e.getMessage());
         }
+        
+        
         cargarTablaFunciones();
     }//GEN-LAST:event_jButtonEnviarFuncionActionPerformed
 
@@ -490,6 +600,22 @@ public class vistaFuncion extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
+    private void jTextFieldFuncionEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFuncionEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFuncionEliminarActionPerformed
+
+    private void jButtonEliminarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarFuncionActionPerformed
+        String  textoBorrar=jTextFieldFuncionEliminar.getText();
+        if(textoBorrar.isBlank()){
+            JOptionPane.showMessageDialog(this, "Indice el ID  de la función a eliminar.");
+            return;
+        }
+        int borrarFuncion=Integer.parseInt(textoBorrar);
+        FuncionData.borrarFuncion(borrarFuncion);
+        JOptionPane.showMessageDialog(this, "Función eliminada.");
+        cargarTablaFunciones();
+    }//GEN-LAST:event_jButtonEliminarFuncionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -516,6 +642,7 @@ public class vistaFuncion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonEliminarFuncion;
     private javax.swing.JButton jButtonEnviarFuncion;
     private javax.swing.JButton jButtonVolver;
     private javax.swing.JCheckBox jCheckBoxFuncion3D;
@@ -524,7 +651,11 @@ public class vistaFuncion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -532,6 +663,7 @@ public class vistaFuncion extends javax.swing.JFrame {
     private javax.swing.JTable jTableListaFunciones;
     private javax.swing.JTable jTableListaPeliculas;
     private javax.swing.JTable jTableSalas;
+    private javax.swing.JTextField jTextFieldFuncionEliminar;
     private javax.swing.JTextField jTextFuncionIdioma;
     private javax.swing.JTextField jTextFuncionPelicula;
     private javax.swing.JTextField jTextFuncionPrecio;

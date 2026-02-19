@@ -15,6 +15,7 @@ public class Sala {
     private boolean apta3D;
     private int capacidad;
     private boolean estado;
+    private ArrayList<Asiento> a;
 
     public Sala() {
     }
@@ -68,6 +69,6 @@ public class Sala {
     
     @Override
     public String toString(){
-        return "Sala " + NroSala + (apta3D ? " (3D)" : "");
+        return "Sala " + NroSala + (apta3D ? " (APTA 3D)" : "");
     } 
 }

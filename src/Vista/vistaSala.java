@@ -21,9 +21,19 @@ import javax.swing.table.DefaultTableModel;
  * @author kamil
  */
 public class vistaSala extends javax.swing.JFrame {
+    Connection con = Conexion.getConexion();
+    SalaData pd = new SalaData(con);
     private SalaData SalaData;
     
-    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaSala.class.getName());
+
+    public vistaSala() {
+        initComponents();
+        placeHolder(jTextSalaNumero, "NUMERO");
+        placeHolder(jTextCapacidad, "CAPACIDAD");
+        SalaData = new SalaData(Conexion.getConexion());
+        cargarTablaSalas();
+    }
     public void placeHolder(JTextField txt, String texto){
         Color colorPlaceholder = new Color(0,0,0,120);
         Color colorTexto = Color.BLACK;
@@ -49,30 +59,23 @@ public class vistaSala extends javax.swing.JFrame {
             }   
         });
     }
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaSala.class.getName());
-
-    Connection con = Conexion.getConexion();
-    SalaData pd = new SalaData(con);
-   
-    public vistaSala() {
-        initComponents();
-        placeHolder(jTextSalaNumero, "NUMERO");
-        placeHolder(jTextCapacidad, "CAPACIDAD");
-        SalaData = new SalaData(Conexion.getConexion());
-        cargarTablaSalas();
-    }
-    
     private void cargarTablaSalas() {
     DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Nro Sala", "Capacidad", "3D"}, 0
+    new Object[]{"Nro Sala", "3D","Capacidad"}, 0
         );
         jTableSalas.setModel(modelo);
 
         for (Sala s : SalaData.listarSalas()) {
+            String es3d;
+            if(s.isApta3D()){
+                es3d="Si.";
+            } else{
+                es3d="No.";
+            }
             modelo.addRow(new Object[]{
                 s.getNroSala(),
-                s.getCapacidad(),
-                s.isApta3D()
+                es3d,
+                s.getCapacidad()
             });
         }
     }

@@ -21,6 +21,7 @@ public class Funcion {
     private boolean subtitulada;
     private LocalDate fechaFuncion;
     private LocalTime horaInicio;
+    private LocalTime horaFin;
     private double precio;
     
 
@@ -30,7 +31,7 @@ public class Funcion {
 
     public Funcion(int idFuncion, Pelicula pelicula, Sala sala, 
             String idioma, boolean es3D, boolean subtitulada, 
-            LocalDate fechaFuncion, LocalTime horaInicio, double precio) {
+            LocalDate fechaFuncion, LocalTime horaInicio, LocalTime horaFin, double precio) {
         this.idFuncion = idFuncion;
         this.pelicula = pelicula;
         this.sala = sala;
@@ -39,11 +40,12 @@ public class Funcion {
         this.subtitulada = subtitulada;
         this.fechaFuncion = fechaFuncion;
         this.horaInicio = horaInicio;
+        this.horaFin= horaFin;
         this.precio = precio;
     }
 
     public Funcion(Pelicula pelicula, Sala sala, String idioma, boolean es3D, 
-            boolean subtitulada, LocalDate fechaFuncion, LocalTime horaInicio,double precio) {
+            boolean subtitulada, LocalDate fechaFuncion, LocalTime horaInicio, LocalTime horaFin, double precio) {
         this.pelicula = pelicula;
         this.sala = sala;
         this.idioma = idioma;
@@ -51,6 +53,7 @@ public class Funcion {
         this.subtitulada = subtitulada;
         this.fechaFuncion = fechaFuncion;
         this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
         this.precio = precio;
     }
     
@@ -120,6 +123,14 @@ public class Funcion {
         this.horaInicio = horaInicio;
     }
 
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(LocalTime horaFin) {
+        this.horaFin = horaFin;
+    }
+    
     public double getPrecio() {
         return precio;
     }
@@ -127,4 +138,9 @@ public class Funcion {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+    
+    @Override
+    public String toString(){
+        return "Funcion de las "+horaInicio +"hs" ;
+    } 
 }
