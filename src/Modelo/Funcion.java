@@ -8,9 +8,12 @@ package Modelo;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- *
- * @author kamil
+/*
+idfuncion existente
+sala id
+
+idasiento correspondiente
+
  */
 public class Funcion {
     private int idFuncion;

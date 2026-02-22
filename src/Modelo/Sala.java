@@ -15,7 +15,7 @@ public class Sala {
     private boolean apta3D;
     private int capacidad;
     private boolean estado;
-    private ArrayList<Asiento> a;
+//    private ArrayList<Asiento> a;
 
     public Sala() {
     }
