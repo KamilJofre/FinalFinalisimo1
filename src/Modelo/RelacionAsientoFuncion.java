@@ -12,6 +12,5 @@ public class RelacionAsientoFuncion {
     private Funcion funcion;
     private Asiento asiento;
     private boolean oupado;
-    
-    
 }
+//funcion.sala.buscarAsioento(idSala);
