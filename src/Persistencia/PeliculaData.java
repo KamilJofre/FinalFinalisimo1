@@ -152,7 +152,7 @@ public class PeliculaData {
     }
 
     //Borrar
-    public void borrarPelicula(int idPelicula) {
+    public void borrarPelicula(int idPelicula){
         String sql = "DELETE FROM pelicula WHERE idPelicula=?";
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);

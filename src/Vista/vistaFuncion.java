@@ -593,11 +593,11 @@ public class vistaFuncion extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFuncionIdiomaActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
-        jButtonVolver.addActionListener(e -> {
+        
             vistaAdmin ventana = new vistaAdmin();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
     private void jTextFieldFuncionEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFuncionEliminarActionPerformed
@@ -606,13 +606,19 @@ public class vistaFuncion extends javax.swing.JFrame {
 
     private void jButtonEliminarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarFuncionActionPerformed
         String  textoBorrar=jTextFieldFuncionEliminar.getText();
+        int borrarFuncion=Integer.parseInt(textoBorrar);
         if(textoBorrar.isBlank()){
             JOptionPane.showMessageDialog(this, "Indice el ID  de la función a eliminar.");
             return;
+        } 
+        try{
+            FuncionData.borrarFuncion(borrarFuncion);
+            JOptionPane.showMessageDialog(this, "Función eliminada.");
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la función"+e.getMessage());
         }
-        int borrarFuncion=Integer.parseInt(textoBorrar);
-        FuncionData.borrarFuncion(borrarFuncion);
-        JOptionPane.showMessageDialog(this, "Función eliminada.");
+        
+        
         cargarTablaFunciones();
     }//GEN-LAST:event_jButtonEliminarFuncionActionPerformed
 

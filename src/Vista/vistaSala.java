@@ -85,9 +85,6 @@ public class vistaSala extends javax.swing.JFrame {
         }
     }
     
-   
-
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -270,14 +267,13 @@ public class vistaSala extends javax.swing.JFrame {
         
         try{
             pd.insertar(s);
-            pd1.cargarAsientosSala(nroSala, capacidad);
+            pd1.cargarAsientosCreandoSala(nroSala, capacidad);
             JOptionPane.showMessageDialog(this, "Sala agregada correctamente ✅");
             
             cargarTablaSalas();
         } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(this, "Error al agregar la sala ❌\n" + e.getMessage());
         }
-        
         
         
     }//GEN-LAST:event_jButtonEnviarSalaActionPerformed
@@ -287,11 +283,11 @@ public class vistaSala extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxSala3DActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
-        jButtonVolver.addActionListener(e -> {
+
             vistaAdmin ventana = new vistaAdmin();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
     private void jTextCapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCapacidadActionPerformed
@@ -302,24 +298,7 @@ public class vistaSala extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(() -> new vistaSala().setVisible(true));
     }
 

@@ -353,11 +353,10 @@ public class vistaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
     private void jButtonClienteVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClienteVolverActionPerformed
-        jButtonClienteVolver.addActionListener(e -> {
+       
             Seleccion ventana = new Seleccion();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
     }//GEN-LAST:event_jButtonClienteVolverActionPerformed
 
     private void jPasswordFieldConsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldConsActionPerformed

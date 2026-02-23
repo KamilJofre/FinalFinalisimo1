@@ -148,6 +148,59 @@ public class FuncionData {
 
         return lista;
     }
+    
+    //funcionesDePelicula
+    public ArrayList<Funcion> funcionesDePelicula(int idPelicula) {
+        ArrayList<Funcion> lista = new ArrayList<>();
+        String sql = """             
+                    SELECT f.*, p.titulo AS titulo_pelicula, s.NroSala
+                    FROM funcion f
+                    JOIN pelicula p ON f.idPelicula = p.idPelicula
+                    JOIN sala s ON f.NroSala = s.NroSala
+                    WHERE f.idPelicula=?
+                    ORDER BY f.fechaFuncion, f.horaInicio
+                """;
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1,idPelicula);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Funcion f = new Funcion();
+
+                f.setIdFuncion(rs.getInt("idFuncion"));
+
+                Pelicula p = new Pelicula();
+                p.setIdPelicula(rs.getInt("idPelicula"));
+                p.setTitulo(rs.getString("titulo_pelicula"));
+                f.setPelicula(p);
+
+                Sala s = new Sala();
+                s.setNroSala(rs.getInt("NroSala"));
+                f.setSala(s);
+
+                f.setIdioma(rs.getString("idioma"));
+                f.setEs3D(rs.getBoolean("es3D"));
+                f.setSubtitulada(rs.getBoolean("subtitulada"));
+                f.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());    
+                f.setHoraFin(rs.getTime("horaFin").toLocalTime());        
+                f.setPrecio(rs.getDouble("precio"));            
+
+                lista.add(f);
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error al listar funciones: " + ex.getMessage());
+        }
+
+        return lista;
+    }
 
     //Actualizar
     public void actualizarFuncion(Funcion f) {

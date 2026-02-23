@@ -107,11 +107,11 @@ public class vistaCartelera extends javax.swing.JFrame {
 
     private void jButtonVolverSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverSeleccionActionPerformed
         // TODO add your handling code here:
-        jButtonVolverSeleccion.addActionListener(e -> {
+        
             Seleccion ventana = new Seleccion();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonVolverSeleccionActionPerformed
 
     /**

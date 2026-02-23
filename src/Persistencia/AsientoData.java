@@ -18,13 +18,14 @@ public class AsientoData {
 
     //Insertar
     public void insertar(Asiento a){
-        String sql = "INSERT INTO asiento (lugar, IdSala) VALUES (?, ?)";
+        String sql = "INSERT INTO asiento (fila, numero, IdSala) VALUES (?,?, ?)";
         PreparedStatement ps = null;
         try{
             ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setString(1, a.getLugar());
-            ps.setInt(2, a.getSala().getNroSala());
+            ps.setString(1, a.getFila());
+            ps.setInt(2, a.getNumero());
+            ps.setInt(3, a.getSala().getNroSala());
 
             ps.executeUpdate();
 
@@ -39,7 +40,7 @@ public class AsientoData {
         } 
     }
     
-    public void cargarAsientosSala(int idSala, int capacidad){
+    public void cargarAsientosCreandoSala(int idSala, int capacidad){
     //CAPACIDAD = (COLUMNAS X FILAS)+ RESTO para una sala ideal (lo mas simetrica posible)
     //entonces la sala es cuadrada, entonces se puede obtener un numero mediante
     //sqrt(capacidad), siendo esta cantidad posible tanto filas como para culmnas,
@@ -73,22 +74,22 @@ public class AsientoData {
         int columnas = cantidadAsientos/filas;
         int resto    = cantidadAsientos%filas;
         
-        String sql = "INSERT INTO asiento (lugar,NroSala) VALUES(?,?)";
+        String sql = "INSERT INTO asiento (fila, numero,NroSala) VALUES(?,?,?)";
         PreparedStatement ps = null;
         
         try{Connection con =Conexion.getConexion();
             ps = con.prepareStatement(sql);
             
             for(int i=0; i<filas; i++){
-            char letraFila= (char) ('A'+i);
+            char filaChar= (char) ('A'+i);
             int asientosEnFila = columnas;
                 if (i<resto){  
                     asientosEnFila++;
                 }
                 for(int j=1; j<=asientosEnFila; j++){
-                    String lugar = letraFila + String.valueOf(j);
-                    ps.setString(1, lugar);
-                    ps.setInt(2, idSala);
+                    ps.setString(1, String.valueOf(filaChar));
+                    ps.setInt(2,j);
+                    ps.setInt(3, idSala);
                     ps.executeUpdate();
                 }
             }
@@ -121,7 +122,8 @@ public class AsientoData {
                 
                 a = new Asiento(
                     rs.getInt("idAsiento"),
-                    rs.getString("lugar"),
+                    rs.getString("fila"),
+                    rs.getInt("numero"),
                     s
                 );
             }
@@ -135,32 +137,14 @@ public class AsientoData {
 
     
 
-    //Actualizar
-    public void actualizarAsiento(Asiento a){
-        String sql ="UPDATE asiento SET lugar=?, idSala=? "
-                   + "WHERE idAsiento=?";
-
-        try{
-            PreparedStatement ps = conexion.prepareStatement(sql);
-
-            ps.setString(1, a.getLugar());
-            ps.setInt(4, a.getSala().getNroSala());
-
-            ps.executeUpdate();
-            ps.close();
-
-        } catch(SQLException ex){
-            System.out.println("Error al actualizar asiento: " + ex.getMessage());
-        }
-    }
-
     //Borrar
-    public void ocuparAsiento(int idAsiento){
-        String sql = "UPDATE asiento SET estado = 0 WHERE idAsiento = ?";
+    public void BorrarAsiento(String fila, int numero){
+        String sql = "DELETE asiento WHERE fila = ? AND numero=?";
 
         try{
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ps.setInt(1, idAsiento);
+            ps.setString(1, fila);
+            ps.setInt(2, numero);
             ps.executeUpdate();
             ps.close();
 
