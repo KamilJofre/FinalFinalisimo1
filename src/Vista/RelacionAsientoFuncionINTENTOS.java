@@ -67,8 +67,7 @@ public class RelacionAsientoFuncionINTENTOS extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         System.out.println(pd.listarAsientosDeFuncion(36));
-        
-        
+        //muestra los asientos de una funcion, hace falta que salgan ordenados 
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
