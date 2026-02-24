@@ -94,8 +94,9 @@ public class SalaData {
                 lista.add(s);
             }
         }   catch(SQLException ex){
-            System.out.println("Erros: al listar salas: "+ex.getMessage());
+            System.out.println("Error al listar salas: "+ex.getMessage());
         }
+        System.out.println(lista);
         return lista;
     }
     
@@ -104,7 +105,6 @@ public class SalaData {
         ArrayList<Funcion> lista = new ArrayList<>();
         
     String sql = "SELECT f.* FROM funcion f WHERE f.NroSala = ?";    
-
 
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);

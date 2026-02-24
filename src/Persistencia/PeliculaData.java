@@ -151,6 +151,36 @@ public class PeliculaData {
         }
     }
 
+    public ArrayList<Funcion> listarFunciones(int idPelicula){
+        ArrayList<Funcion> lista = new ArrayList<>();
+        String sql = """
+                     SELECT *
+                     FROM funcion
+                     WHERE idPelicula=?
+                     """;
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1,idPelicula);
+            ResultSet rs= ps.executeQuery();
+            
+            while(rs.next()){
+                Funcion f = new Funcion();
+                f.setIdFuncion(rs.getInt("idFuncion"));
+                f.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+                
+                Pelicula p = new Pelicula();
+                p.getIdPelicula();
+                f.setPelicula(p);
+                
+                lista.add(f);
+            }
+            
+        }catch(SQLException ex){
+            System.out.println("Error al listar funciones de la pelicula."+ex.getMessage());
+        }
+        return lista;
+    }
+    
     //Borrar
     public void borrarPelicula(int idPelicula){
         String sql = "DELETE FROM pelicula WHERE idPelicula=?";

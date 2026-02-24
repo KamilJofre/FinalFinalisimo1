@@ -12,32 +12,35 @@ import java.time.LocalDate;
  */
 public class TicketCompra {
     private int idTicketCompra;
-    private Comprador idComprador;
-    private RelacionAsientoFuncion relacion;
     private Funcion funcion;
+    private RelacionAsientoFuncion relacion;
+    private Comprador comprador;
     private LocalDate fechaCompra;
     private double monto;
 
     public TicketCompra() {
     }
 
-    public TicketCompra(int idTicketCompra, Comprador idComprador, RelacionAsientoFuncion relacion, Funcion funcion, LocalDate fechaCompra, double monto) {
+    public TicketCompra(int idTicketCompra, Funcion funcion, RelacionAsientoFuncion relacion, 
+            Comprador comprador, LocalDate fechaCompra, double monto) {
         this.idTicketCompra = idTicketCompra;
-        this.idComprador = idComprador;
-        this.relacion = relacion;
         this.funcion = funcion;
+        this.relacion = relacion;
+        this.comprador = comprador;
+        this.fechaCompra = fechaCompra;
+        this.monto = monto;
+    }
+    
+    public TicketCompra(Funcion funcion, RelacionAsientoFuncion relacion, 
+            Comprador comprador, LocalDate fechaCompra, double monto) {
+        this.funcion = funcion;
+        this.relacion = relacion;
+        this.comprador = comprador;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
     }
 
-    public TicketCompra(Comprador idComprador, RelacionAsientoFuncion relacion, Funcion funcion, LocalDate fechaCompra, double monto) {
-        this.idComprador = idComprador;
-        this.relacion = relacion;
-        this.funcion = funcion;
-        this.fechaCompra = fechaCompra;
-        this.monto = monto;
-    }
-
+   
     public int getIdTicketCompra() {
         return idTicketCompra;
     }
@@ -46,12 +49,12 @@ public class TicketCompra {
         this.idTicketCompra = idTicketCompra;
     }
 
-    public Comprador getIdComprador() {
-        return idComprador;
+    public Comprador getComprador() {
+        return comprador;
     }
 
-    public void setIdComprador(Comprador idComprador) {
-        this.idComprador = idComprador;
+    public void setComprador(Comprador comprador) {
+        this.comprador = comprador;
     }
 
     public LocalDate getFechaCompra() {

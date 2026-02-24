@@ -73,7 +73,8 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
     public vistaAsientoRAF() {
         initComponents();
         
-//        
+        placeHolder(jTextFilaBorrar, "FILA A BORRAR");
+        placeHolder(jTextNumeroBorrar, "NÚMERO A BORRAR");
         SalaData = new SalaData(con);
         cargarSalas();
         jComboBoxSala.addActionListener(e->cargarFunciones());       
@@ -239,12 +240,12 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFilaBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                    .addComponent(jTextFilaBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                     .addComponent(jTextNumeroBorrar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

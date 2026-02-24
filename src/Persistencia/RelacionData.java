@@ -47,7 +47,7 @@ public class RelacionData {
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Eroor al listar los asientos de la funcion" + ex.getMessage());
+            System.out.println("Error al listar los asientos de la funcion" + ex.getMessage());
         } 
         
         //Imprimir ordenado
@@ -93,12 +93,56 @@ public class RelacionData {
         }
     }
     
-    public void estadoAsiento(int idFuncion, int idAsiento){
-        //chequea el estado de un lugar
+    public boolean estadoAsiento(int idFuncion, int idAsiento){
+
+    String sql = """
+                 SELECT ocupado 
+                 FROM relacionasientofuncion
+                 WHERE idFuncion = ? AND idAsiento = ?
+                 """;
+
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idFuncion);
+            ps.setInt(2, idAsiento);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("ocupado");
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error al consultar estado del asiento " + ex.getMessage());
+        }
+
+        return false; // si no existe lo toma como libre
     }
     
-    public void ocuparAsiento(){
-        //ocupa lugar mediante seleccion del cliente
+    public boolean ocuparAsiento(int idFuncion, int idAsiento){
+
+    // Primero verificamos estado
+    if (estadoAsiento(idFuncion, idAsiento)) {
+        System.out.println("El asiento ya está ocupado.");
+        return false;
+        }
+        String sql = """
+                     UPDATE relacionasientofuncion
+                     SET ocupado = true
+                     WHERE idFuncion = ? AND idAsiento = ?
+                     """;
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setInt(1, idFuncion);
+            ps.setInt(2, idAsiento);
+            int filas = ps.executeUpdate();
+            if (filas > 0) {
+                System.out.println("Asiento ocupado correctamente.");
+                return true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al ocupar asiento " + ex.getMessage());
+        }
+        return false;
     }
     
     public void borrarGrupoRelaciones(int idFuncion){

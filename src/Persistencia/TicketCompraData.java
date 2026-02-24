@@ -19,15 +19,15 @@ public class TicketCompraData {
     //Insertar Ticket
     public void guardarTicket(TicketCompra t) {
 
-        String sql = "INSERT INTO ticketcompra (idComprador, idAsiento, idFuncion, fechaCompra, monto) "
+        String sql = "INSERT INTO ticketcompra (idFuncion, idRelacion, idComprador, fechaCompra, monto) "
                    + "VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            ps.setInt(1, t.getIdComprador().getDni());
+            
+            ps.setInt(1, t.getFuncion().getIdFuncion());
             ps.setInt(2, t.getRelacion().getIdRelacion());
-            ps.setInt(3, t.getFuncion().getIdFuncion());
+            ps.setInt(3, t.getComprador().getDni());
             ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
 
@@ -62,20 +62,20 @@ public class TicketCompraData {
             if (rs.next()) {
 
                 // Objetos relacionados
-                Comprador c = new Comprador();
-                c.setDni(rs.getInt("idComprador"));
-
-                Asiento a = new Asiento();
-                a.setIdAsiento(rs.getInt("idAsiento"));
-
                 Funcion f = new Funcion();
                 f.setIdFuncion(rs.getInt("idFuncion"));
 
+                RelacionAsientoFuncion raf = new RelacionAsientoFuncion();
+                raf.setIdRelacion(rs.getInt("idRelacion"));
+
+                Comprador c = new Comprador();
+                c.setDni(rs.getInt("idComprador"));
+
                 t = new TicketCompra(
                         rs.getInt("idTicketCompra"),
-                        c,
-                        a,
                         f,
+                        raf,
+                        c,
                         rs.getDate("fechaCompra").toLocalDate(),
                         rs.getDouble("monto")
                 );
@@ -91,7 +91,7 @@ public class TicketCompraData {
     }
 
     //Listrar Tickets
-    public ArrayList<TicketCompra> listarTicketCompra(int idComprador) {
+    public ArrayList<TicketCompra> listarComprasDNI(int idComprador) {
 
         ArrayList<TicketCompra> lista = new ArrayList<>();
 
@@ -108,20 +108,20 @@ public class TicketCompraData {
                 TicketCompra t = new TicketCompra();
                 t.setIdTicketCompra(rs.getInt("idTicketCompra"));
 
-                // Comprador
-                Comprador c = new Comprador();
-                c.setDni(rs.getInt("idComprador"));
-                t.setIdComprador(c);
-
-                // Asiento
-                Asiento a = new Asiento();
-                a.setIdAsiento(rs.getInt("idAsiento"));
-                t.setIdAsiento(a);
-
                 // Función
                 Funcion f = new Funcion();
                 f.setIdFuncion(rs.getInt("idFuncion"));
-                t.setIdFuncion(f);
+                t.setFuncion(f);
+                
+                // RelacionAsientoFuncion
+                RelacionAsientoFuncion raf = new RelacionAsientoFuncion();
+                raf.setIdRelacion(rs.getInt("idRelacion"));
+                t.setRelacion(raf);
+                
+                // Comprador
+                Comprador c = new Comprador();
+                c.setDni(rs.getInt("idComprador"));
+                t.setComprador(c);
 
                 t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
                 t.setMonto(rs.getDouble("monto"));
@@ -147,9 +147,9 @@ public class TicketCompraData {
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
 
-            ps.setInt(1, t.getIdComprador().getDni());
-            ps.setInt(2, t.getIdAsiento().getIdAsiento());
-            ps.setInt(3, t.getIdFuncion().getIdFuncion());
+            ps.setInt(1, t.getComprador().getDni());
+            ps.setInt(2, t.getRelacion().getIdRelacion());
+            ps.setInt(3, t.getFuncion().getIdFuncion());
             ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
             ps.setInt(6, t.getIdTicketCompra());

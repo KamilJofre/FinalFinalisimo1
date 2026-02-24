@@ -10,18 +10,24 @@ import java.sql.Connection;
  *
  * @author kamil
  */
-public class RelacionAsientoFuncionINTENTOS extends javax.swing.JFrame {
+public class RelacionAsientoFuncionIGNORAR extends javax.swing.JFrame {
     private RelacionData RelacionData;
+    private AsientoData AsientoData;
+    private SalaData SalaData;
     Connection con = Conexion.getConexion();
-    RelacionData pd = new RelacionData(con);
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RelacionAsientoFuncionINTENTOS.class.getName());
+    RelacionData pdRelacion = new RelacionData(con);
+    AsientoData pdAsiento = new AsientoData(con);
+    SalaData pdSala= new SalaData(con);
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RelacionAsientoFuncionIGNORAR.class.getName());
 
     /**
      * Creates new form NewJFrame
      */
-    public RelacionAsientoFuncionINTENTOS() {
+    public RelacionAsientoFuncionIGNORAR() {
         initComponents();
         RelacionData = new RelacionData(Conexion.getConexion());
+        AsientoData = new AsientoData(Conexion.getConexion());
+        SalaData = new SalaData(Conexion.getConexion());
     }
 
     /**
@@ -65,7 +71,8 @@ public class RelacionAsientoFuncionINTENTOS extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        pd.listarAsientosDeFuncion(36);
+        pdSala.buscarSala(3);
+        pdAsiento.listarAsientosSala(3);
         //muestra los asientos de una funcion, hace falta que salgan ordenados 
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -91,7 +98,7 @@ public class RelacionAsientoFuncionINTENTOS extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new RelacionAsientoFuncionINTENTOS().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new RelacionAsientoFuncionIGNORAR().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

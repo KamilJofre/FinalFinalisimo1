@@ -6,6 +6,11 @@ package Persistencia;
 
 import Modelo.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class AsientoData {
@@ -133,6 +138,55 @@ public class AsientoData {
             System.out.println("Error al buscar asiento: " + ex.getMessage());
         }
         return a;
+    }
+    
+    public ArrayList<Asiento> listarAsientosSala(int NroSala) {
+        ArrayList<Asiento> lista = new ArrayList<>(); 
+        String sql="""
+                   SELECT *
+                   FROM asiento
+                   WHERE NroSala=?
+                   """;
+        //Imprimir ordenado
+        
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1, NroSala);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Asiento a = new Asiento();
+                    a.setIdAsiento(rs.getInt("idAsiento"));
+                    a.setFila(rs.getString("fila"));
+                    a.setNumero(rs.getInt("numero"));
+                    
+                    Sala s = new Sala();
+                    s.setNroSala(rs.getInt("NroSala"));
+                    a.setSala(s);
+                    
+                    lista.add(a);
+                }
+            }
+        } catch(SQLException ex){
+            System.out.println("Error al mostrar asientos"+ex.getMessage());
+        }
+        
+        Map<String, List<Asiento>> asientosPorFila = new TreeMap<>();
+        
+        for(Asiento a: lista){
+            String fila = a.getFila().toUpperCase();
+            asientosPorFila.putIfAbsent(fila, new ArrayList<>());
+            asientosPorFila.get(fila).add(a);
+        }
+        
+        for(String fila : asientosPorFila.keySet()){
+            System.out.print(fila + ": ");
+            List<Asiento> asientos = asientosPorFila.get(fila);
+            asientos.sort(Comparator.comparingInt(Asiento::getNumero));
+            for(Asiento a: asientos){
+                System.out.print(a.getNumero() + " ");
+            }
+            System.out.println();
+        }
+        return lista;
     }
 
     

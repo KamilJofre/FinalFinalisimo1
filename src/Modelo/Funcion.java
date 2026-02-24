@@ -144,6 +144,6 @@ public class Funcion {
     
     @Override
     public String toString(){
-        return "Funcion de las "+horaInicio +"hs" ;
+        return ""+fechaFuncion +"/"+horaInicio +"hs" ;
     } 
 }

@@ -4,7 +4,8 @@
  */
 package Vista;
 
-import Persistencia.Conexion;
+import Modelo.*;
+import Persistencia.*;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -16,6 +17,13 @@ import javax.swing.JTextField;
  * @author kamil
  */
 public class vistaCliente extends javax.swing.JFrame {
+    Connection con = (Connection) Conexion.getConexion();
+    private PeliculaData PeliculaData;
+    PeliculaData pdPelicula = new PeliculaData(con);
+    
+    private FuncionData FuncionData;
+    FuncionData pdFuncion = new FuncionData(con);
+    
     public void placeHolder(JTextField txt, String texto){
         Color colorPlaceholder = new Color(0,0,0,120);
         Color colorTexto = Color.BLACK;
@@ -41,19 +49,39 @@ public class vistaCliente extends javax.swing.JFrame {
             }   
         });
     }
-    Connection con = Conexion.getConexion();
+    
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaCliente.class.getName());
 
-    /**
-     * Creates new form vistaCliente
-     */
+    public void cargarPeliculas(){
+        jComboBoxListaPeliculas.removeAllItems();
+        for(Pelicula p : PeliculaData.listarPeliculas()){
+            jComboBoxListaPeliculas.addItem(p);
+        }
+    }
+    
     public vistaCliente() {
         initComponents();
         placeHolder(jTextDni, "DNI");
         placeHolder(jTextNombre, "NOMBRE COMPLETO");
         placeHolder(jPasswordFieldCons, "CONTRASEÑA");
+        PeliculaData = new PeliculaData(con);
         
+        cargarPeliculas();
+        jComboBoxListaPeliculas.addActionListener(e -> cargarFunciones());
+    }
+    
+    
+    public void cargarFunciones(){
+        jComboBoxListaFunciones.removeAllItems();
+        
+        Pelicula peliculaSeleccionada = (Pelicula) jComboBoxListaPeliculas.getSelectedItem();
+        
+        if(peliculaSeleccionada!=null){
+            for(Funcion f: PeliculaData.listarFunciones(peliculaSeleccionada.getIdPelicula())){
+                jComboBoxListaFunciones.addItem(f);
+            }
+        }
     }
 
     /**
@@ -114,14 +142,11 @@ public class vistaCliente extends javax.swing.JFrame {
 
         jLabel5.setText("ASIENTO");
 
-        jComboBoxListaPeliculas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxListaPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxListaPeliculasActionPerformed(evt);
             }
         });
-
-        jComboBoxListaFunciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -137,7 +162,7 @@ public class vistaCliente extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,20 +243,20 @@ public class vistaCliente extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBoxMetodoPago, 0, 106, Short.MAX_VALUE)
-                            .addComponent(jComboBox9, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jComboBox9, 0, 100, Short.MAX_VALUE)
+                            .addComponent(jComboBoxMetodoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(43, 43, 43))
+                                .addGap(32, 32, 32))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(7, 7, 7)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPasswordFieldCons, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(jTextNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextDni, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextDni, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextNombre)
+                            .addComponent(jPasswordFieldCons))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -311,12 +336,13 @@ public class vistaCliente extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,9 +350,10 @@ public class vistaCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -399,8 +426,8 @@ public class vistaCliente extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox9;
-    private javax.swing.JComboBox<String> jComboBoxListaFunciones;
-    private javax.swing.JComboBox<String> jComboBoxListaPeliculas;
+    private javax.swing.JComboBox<Funcion> jComboBoxListaFunciones;
+    private javax.swing.JComboBox<Pelicula> jComboBoxListaPeliculas;
     private javax.swing.JComboBox<String> jComboBoxMetodoPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

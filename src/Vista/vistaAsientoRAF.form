@@ -220,13 +220,13 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextFilaBorrar" pref="129" max="32767" attributes="0"/>
+                      <Component id="jTextFilaBorrar" pref="138" max="32767" attributes="0"/>
                       <Component id="jTextNumeroBorrar" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jButtonVolver" max="32767" attributes="0"/>
-                      <Component id="jButton2" pref="129" max="32767" attributes="0"/>
+                      <Component id="jButton2" pref="138" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
