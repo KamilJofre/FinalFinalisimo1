@@ -12,7 +12,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="Comprador" package="finallabprogramacion_grupo3" visibility="public" xPosition="643.0" yPosition="584.0">
+    <Class name="Comprador" package="finallabprogramacion_grupo3" visibility="public" xPosition="713.0" yPosition="578.0">
       <Fields>
         <Field name="idComprador" type="int" visibility="private"/>
         <Field name="dni" type="int" visibility="private"/>
@@ -37,7 +37,7 @@
         <Method name="cerrarConexion" returnType="void" visibility="public" isStatic="true"/>
       </Methods>
     </Class>
-    <Class name="FinalLabProgramacion_GRUPO3" package="finallabprogramacion_grupo3" visibility="public" xPosition="32.0" yPosition="223.0">
+    <Class name="FinalLabProgramacion_GRUPO3" package="finallabprogramacion_grupo3" visibility="public" xPosition="32.0" yPosition="247.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -62,7 +62,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="Pelicula" package="finallabprogramacion_grupo3" visibility="public" xPosition="631.0" yPosition="26.0">
+    <Class name="Pelicula" package="finallabprogramacion_grupo3" visibility="public" xPosition="614.0" yPosition="26.0">
       <Fields>
         <Field name="idPelicula" type="int" visibility="private"/>
         <Field name="duracion" type="int" visibility="private"/>
@@ -84,7 +84,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="TicketCompra" package="finallabprogramacion_grupo3" visibility="public" xPosition="377.0" yPosition="555.0">
+    <Class name="TicketCompra" package="finallabprogramacion_grupo3" visibility="public" xPosition="466.0" yPosition="549.0">
       <Fields>
         <Field name="idTicketCompra" type="int" visibility="private"/>
         <Field name="idComprador" type="Comprador" visibility="private"/>
@@ -96,7 +96,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="RelacionAsientoFuncion" package="" visibility="public" xPosition="267.0" yPosition="375.0">
+    <Class name="RelacionAsientoFuncion" package="" visibility="public" xPosition="289.0" yPosition="378.0">
       <Fields>
         <Field name="idRelacion" type="int" visibility="private"/>
         <Field name="idFuncion" type="int" visibility="private"/>
