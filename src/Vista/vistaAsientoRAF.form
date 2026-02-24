@@ -130,6 +130,9 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jPanel3AncestorAdded"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">

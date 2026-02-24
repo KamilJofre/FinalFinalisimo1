@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 
 
 
-public class vistaAsiento extends javax.swing.JFrame {
+public class vistaAsientoRAF extends javax.swing.JFrame {
     
-    private static final Logger logger = Logger.getLogger(vistaAsiento.class.getName());
+    private static final Logger logger = Logger.getLogger(vistaAsientoRAF.class.getName());
     Connection con = (Connection) Conexion.getConexion();
     private SalaData SalaData;
     private AsientoData AsientoData;
@@ -70,7 +70,7 @@ public class vistaAsiento extends javax.swing.JFrame {
         });
     }
   
-    public vistaAsiento() {
+    public vistaAsientoRAF() {
         initComponents();
         
 //        
@@ -127,6 +127,15 @@ public class vistaAsiento extends javax.swing.JFrame {
         });
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel3.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jPanel3AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         label2.setAlignment(java.awt.Label.CENTER);
         label2.setBackground(new java.awt.Color(0, 0, 51));
@@ -310,6 +319,10 @@ public class vistaAsiento extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFilaBorrarActionPerformed
 
+    private void jPanel3AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel3AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel3AncestorAdded
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -330,7 +343,7 @@ public class vistaAsiento extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new vistaAsiento().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new vistaAsientoRAF().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -566,22 +566,21 @@ public class vistaFuncion extends javax.swing.JFrame {
         
         Funcion f = new Funcion (pelicula , sala,idioma , es3d, esSubtitulada,fecha, horaInicio,horaFin, precio);
         
-        if(pd.solapamiento(sala.getNroSala(),horaInicio, horaFin)){
-            System.out.println("Ya existe una funcion en el horario seleccionado.");
-        } else{
-            try{
-                pd.guardarFuncion(f);
-                pd1.crearRelacionAsientoFuncion(f.getIdFuncion());
-                JOptionPane.showMessageDialog(this, "✅ Funcion agregada con extio ✅");
-
-                cargarTablaFunciones();
-            } catch(Exception e){
-                JOptionPane.showMessageDialog(this, "❌ Funcion al agregar pelicula ❌" + e.getMessage());
-            }
+        if(pd.solapamiento(sala.getNroSala(),fecha,horaInicio, horaFin)){
+            JOptionPane.showMessageDialog(this,"Ya existe una funcion en el horario seleccionado.");
+            return;
         }
         
-        
-        cargarTablaFunciones();
+        try{
+            pd.guardarFuncion(f);
+            pd1.crearRelacionAsientoFuncion(f.getIdFuncion());
+            JOptionPane.showMessageDialog(this, "✅ Funcion agregada con extio ✅");
+
+            cargarTablaFunciones();
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, "❌ Funcion al agregar pelicula ❌" + e.getMessage());
+        }
+    cargarTablaFunciones();
     }//GEN-LAST:event_jButtonEnviarFuncionActionPerformed
 
     private void jTextFuncionPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFuncionPrecioActionPerformed

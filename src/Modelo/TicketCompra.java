@@ -13,27 +13,27 @@ import java.time.LocalDate;
 public class TicketCompra {
     private int idTicketCompra;
     private Comprador idComprador;
-    private Asiento idAsiento;
-    private Funcion idFuncion;
+    private RelacionAsientoFuncion relacion;
+    private Funcion funcion;
     private LocalDate fechaCompra;
     private double monto;
 
     public TicketCompra() {
     }
 
-    public TicketCompra(int idTicketCompra, Comprador idComprador, Asiento idAsiento, Funcion idFuncion, LocalDate fechaCompra, double monto) {
+    public TicketCompra(int idTicketCompra, Comprador idComprador, RelacionAsientoFuncion relacion, Funcion funcion, LocalDate fechaCompra, double monto) {
         this.idTicketCompra = idTicketCompra;
         this.idComprador = idComprador;
-        this.idAsiento = idAsiento;
-        this.idFuncion = idFuncion;
+        this.relacion = relacion;
+        this.funcion = funcion;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
     }
 
-    public TicketCompra(Comprador idComprador, Asiento idAsiento, Funcion idFuncion, LocalDate fechaCompra, double monto) {
+    public TicketCompra(Comprador idComprador, RelacionAsientoFuncion relacion, Funcion funcion, LocalDate fechaCompra, double monto) {
         this.idComprador = idComprador;
-        this.idAsiento = idAsiento;
-        this.idFuncion = idFuncion;
+        this.relacion = relacion;
+        this.funcion = funcion;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
     }
@@ -54,28 +54,12 @@ public class TicketCompra {
         this.idComprador = idComprador;
     }
 
-    public Asiento getIdAsiento() {
-        return idAsiento;
-    }
-
-    public void setIdAsiento(Asiento idAsiento) {
-        this.idAsiento = idAsiento;
-    }
-
     public LocalDate getFechaCompra() {
         return fechaCompra;
     }
 
     public void setFechaCompra(LocalDate fechaCompra) {
         this.fechaCompra = fechaCompra;
-    }
-
-    public Funcion getIdFuncion() {
-        return idFuncion;
-    }
-
-    public void setIdFuncion(Funcion idFuncion) {
-        this.idFuncion = idFuncion;
     }
 
     public double getMonto() {
@@ -86,6 +70,19 @@ public class TicketCompra {
         this.monto = monto;
     }
 
-    
-    
+    public RelacionAsientoFuncion getRelacion() {
+        return relacion;
+    }
+
+    public void setRelacion(RelacionAsientoFuncion relacion) {
+        this.relacion = relacion;
+    }
+
+    public Funcion getFuncion() {
+        return funcion;
+    }
+
+    public void setFuncion(Funcion funcion) {
+        this.funcion = funcion;
+    }
 }

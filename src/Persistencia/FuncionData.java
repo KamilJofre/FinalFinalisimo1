@@ -6,6 +6,7 @@ package Persistencia;
 
 import Modelo.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -51,18 +52,20 @@ public class FuncionData {
     }
     
     //chequear posibilidad para horario de funcion
-    public boolean solapamiento(int NroSala, LocalTime nueavaInicio, LocalTime nuevaFin){
+    public boolean solapamiento(int NroSala, LocalDate fechaNueva,  LocalTime nueavaInicio, LocalTime nuevaFin){
         String sql = """
                      SELECT *
                      FROM funcion 
                      WHERE NroSala=? 
-                     AND <? horaFin
-                     AND >? horaInicio
+                     AND fechaFuncion=?
+                     AND ? < horaFin
+                     AND ? > horaInicio
                      """;
         try(PreparedStatement ps = conexion.prepareStatement(sql)){
             ps.setInt(1, NroSala);
-            ps.setObject(2, nueavaInicio);
-            ps.setObject(3, nuevaFin);
+            ps.setObject(2,fechaNueva);
+            ps.setObject(3, nueavaInicio);
+            ps.setObject(4, nuevaFin);
             
             ResultSet rs= ps.executeQuery();
             

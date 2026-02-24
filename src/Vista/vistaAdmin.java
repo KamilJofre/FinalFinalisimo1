@@ -219,7 +219,7 @@ public class vistaAdmin extends javax.swing.JFrame {
 
     private void jButtonIrAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAsientoActionPerformed
        
-            vistaAsiento ventana = new vistaAsiento();
+            vistaAsientoRAF ventana = new vistaAsientoRAF();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
        
