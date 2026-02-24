@@ -82,7 +82,7 @@ public class vistaCliente extends javax.swing.JFrame {
         
         if(funcionSeleccionada!=null){
             for(RelacionAsientoFuncion raf : pdRelacion.listarAsientosDeFuncion(funcionSeleccionada.getIdFuncion())){
-                jComboBoxAsientos.addItem(raf);
+                if(raf.isOcupado()==false){jComboBoxAsientos.addItem(raf);}
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione una función");
@@ -94,12 +94,12 @@ public class vistaCliente extends javax.swing.JFrame {
         initComponents();
         placeHolder(jTextDni, "DNI");
         placeHolder(jTextNombre, "NOMBRE COMPLETO");
-        placeHolder(jPasswordFieldCons, "CONTRASEÑA");
+        placeHolder(jPasswordFieldContraseña, "CONTRASEÑA");
         PeliculaData = new PeliculaData(con);
         
         cargarPeliculas();
         jComboBoxListaPeliculas.addActionListener(e -> cargarFunciones());
-        //jComboBoxAsientos.addActionListener (e-> cargarAsientos();
+        jComboBoxListaFunciones.addActionListener (e-> cargarAsientos());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -127,11 +127,12 @@ public class vistaCliente extends javax.swing.JFrame {
         jTextNombre = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jTextDni = new javax.swing.JTextField();
-        jPasswordFieldCons = new javax.swing.JPasswordField();
+        jPasswordFieldContraseña = new javax.swing.JPasswordField();
         jPanel3 = new javax.swing.JPanel();
         jButtonLimpiar = new javax.swing.JButton();
         jButtonComprar = new javax.swing.JButton();
         jButtonClienteVolver = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,6 +163,12 @@ public class vistaCliente extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxAsientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxAsientosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -173,10 +180,10 @@ public class vistaCliente extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBoxListaFunciones, javax.swing.GroupLayout.Alignment.TRAILING, 0, 170, Short.MAX_VALUE)
-                    .addComponent(jComboBoxListaPeliculas, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxAsientos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxListaFunciones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxListaPeliculas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxAsientos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -223,10 +230,10 @@ public class vistaCliente extends javax.swing.JFrame {
             }
         });
 
-        jPasswordFieldCons.setText("jPasswordField1");
-        jPasswordFieldCons.addActionListener(new java.awt.event.ActionListener() {
+        jPasswordFieldContraseña.setText("jPasswordField1");
+        jPasswordFieldContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordFieldConsActionPerformed(evt);
+                jPasswordFieldContraseñaActionPerformed(evt);
             }
         });
 
@@ -240,15 +247,15 @@ public class vistaCliente extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                                 .addGap(21, 21, 21))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(7, 7, 7)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextNombre)
-                            .addComponent(jPasswordFieldCons)
-                            .addComponent(jTextDni, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPasswordFieldContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                            .addComponent(jTextDni)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -272,7 +279,7 @@ public class vistaCliente extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jPasswordFieldCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxMetodoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,6 +334,17 @@ public class vistaCliente extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -336,14 +354,19 @@ public class vistaCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -364,9 +387,13 @@ public class vistaCliente extends javax.swing.JFrame {
 
     private void jButtonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComprarActionPerformed
         // TODO add your handling code here:
+        Pelicula pelicula= (Pelicula) jComboBoxListaPeliculas.getSelectedItem();
+        Funcion funcion = (Funcion)jComboBoxListaFunciones.getSelectedItem();
+        RelacionAsientoFuncion asiento = (RelacionAsientoFuncion)jComboBoxAsientos.getSelectedItem();
+        
         int dni= Integer.parseInt(jTextDni.getText());
         String nombre = jTextNombre.getText();
-        String contrasenia = jPasswordFieldCons.getText();
+        String contraseña = jPasswordFieldContraseña.getText();
         
     }//GEN-LAST:event_jButtonComprarActionPerformed
 
@@ -381,13 +408,17 @@ public class vistaCliente extends javax.swing.JFrame {
             this.dispose(); // Cierra la ventana actual
     }//GEN-LAST:event_jButtonClienteVolverActionPerformed
 
-    private void jPasswordFieldConsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldConsActionPerformed
+    private void jPasswordFieldContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldContraseñaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordFieldConsActionPerformed
+    }//GEN-LAST:event_jPasswordFieldContraseñaActionPerformed
 
     private void jComboBoxListaPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxListaPeliculasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxListaPeliculasActionPerformed
+
+    private void jComboBoxAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAsientosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxAsientosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -432,7 +463,8 @@ public class vistaCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordFieldCons;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPasswordField jPasswordFieldContraseña;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextDni;

@@ -180,6 +180,45 @@ public class FuncionData {
 
         return lista;
     }
+    public ArrayList<Funcion> listarFuncionesDeSala(int NroSala){
+        
+        ArrayList<Funcion> lista = new ArrayList<>();
+        
+    String sql = "SELECT f.* FROM funcion f WHERE f.NroSala = ?";    
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setInt(1, NroSala);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Funcion f = new Funcion();
+                f.setIdFuncion(rs.getInt("idFuncion"));
+                
+                // Película
+                Pelicula p = new Pelicula();
+                p.setIdPelicula(rs.getInt("idPelicula"));
+                f.setPelicula(p);
+                
+                // Sala
+                Sala s = new Sala();
+                s.setNroSala(rs.getInt("NroSala"));
+                f.setSala(s);
+                
+                f.setIdioma(rs.getString("idioma"));
+                f.setEs3D(rs.getBoolean("es3D"));
+                f.setSubtitulada(rs.getBoolean("subtitulada"));
+                f.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
+                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());
+                f.setPrecio(rs.getInt("precio"));
+                
+                lista.add(f);
+            }   
+        } catch (SQLException ex) {
+            System.out.println("Error al listar funciones: " + ex.getMessage());
+        }
+        return lista;
+    }
     
     //funcionesDePelicula
     public ArrayList<Funcion> funcionesDePelicula(int idPelicula) {

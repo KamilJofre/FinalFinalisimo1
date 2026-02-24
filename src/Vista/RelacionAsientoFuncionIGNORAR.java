@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
+import Modelo.RelacionAsientoFuncion;
 import Persistencia.*;
 import java.sql.Connection;
+import java.util.List;
 
 /**
  *
@@ -71,8 +73,10 @@ public class RelacionAsientoFuncionIGNORAR extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        pdSala.buscarSala(3);
-        pdAsiento.listarAsientosSala(3);
+        List<RelacionAsientoFuncion> lista =
+        pdRelacion.listarAsientosDeFuncion(50);
+
+        System.out.println("Cantidad de asientos: " + lista.size());
         //muestra los asientos de una funcion, hace falta que salgan ordenados 
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 

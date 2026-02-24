@@ -64,7 +64,7 @@ public class RelacionAsientoFuncion {
     
     @Override
     public String toString(){
-        return asiento.getFila()+asiento.getNumero();
+        return asiento.getFila()+asiento.getNumero() ;
     }
 }
 

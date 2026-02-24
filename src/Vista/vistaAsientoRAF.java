@@ -1,10 +1,7 @@
 package Vista;
 
-import Modelo.Funcion;
-import Modelo.Sala;
-import Persistencia.AsientoData;
-import Persistencia.Conexion;
-import Persistencia.SalaData;
+import Modelo.*;
+import Persistencia.*;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -19,7 +16,9 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
     private static final Logger logger = Logger.getLogger(vistaAsientoRAF.class.getName());
     Connection con = (Connection) Conexion.getConexion();
     private SalaData SalaData;
+    private FuncionData FuncionData; 
     private AsientoData AsientoData;
+    private RelacionData RelacionData; 
 
     
     public void cargarSalas(){
@@ -29,18 +28,18 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
             jComboBoxSala.addItem(s);
         }
     }
-    
     public void cargarFunciones(){
         jComboBoxFuncion.removeAllItems();
         
         Sala salaSeleccionada = (Sala) jComboBoxSala.getSelectedItem();
         
         if(salaSeleccionada!=null){
-            for(Funcion f: SalaData.listarFuncionesDeSala(salaSeleccionada.getNroSala())){
+            for(Funcion f: FuncionData.listarFuncionesDeSala(salaSeleccionada.getNroSala())){
                 jComboBoxFuncion.addItem(f);
             }
         }
     }
+    
     
     
 
@@ -77,6 +76,8 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
         placeHolder(jTextNumeroBorrar, "NÚMERO A BORRAR");
         SalaData = new SalaData(con);
         cargarSalas();
+        RelacionData = new RelacionData(con);
+        FuncionData = new FuncionData(con);
         jComboBoxSala.addActionListener(e->cargarFunciones());       
     }
 
@@ -128,6 +129,7 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
         });
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel3.setToolTipText("");
         jPanel3.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jPanel3AncestorAdded(evt);
@@ -307,9 +309,10 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        Sala sala = (Sala)jComboBoxSala.getSelectedItem();
         String fila= jTextFilaBorrar.getText();
         int numero = Integer.parseInt(jTextNumeroBorrar.getText());
-        AsientoData.BorrarAsiento(fila, numero);
+        AsientoData.BorrarAsiento(sala,fila, numero);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextNumeroBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNumeroBorrarActionPerformed
@@ -321,7 +324,8 @@ public class vistaAsientoRAF extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFilaBorrarActionPerformed
 
     private void jPanel3AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel3AncestorAdded
-        // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_jPanel3AncestorAdded
 
     

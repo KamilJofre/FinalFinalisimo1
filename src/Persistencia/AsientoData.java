@@ -5,6 +5,7 @@
 package Persistencia;
 
 import Modelo.*;
+import Persistencia.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,6 +17,7 @@ import java.util.TreeMap;
 public class AsientoData {
 
     private Connection conexion;
+    private RelacionData RelacionData;
 
     public AsientoData(Connection conexion){
         this.conexion = conexion;
@@ -192,13 +194,14 @@ public class AsientoData {
     
 
     //Borrar
-    public void BorrarAsiento(String fila, int numero){
-        String sql = "DELETE asiento WHERE fila = ? AND numero=?";
+    public void BorrarAsiento(Sala sala,String fila, int numero){
+        String sql = "DELETE asiento WHERE NroSala=? AND fila = ? AND numero=?";
 
         try{
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ps.setString(1, fila);
-            ps.setInt(2, numero);
+            ps.setInt(1, sala.getNroSala());
+            ps.setString(2, fila);
+            ps.setInt(3, numero);
             ps.executeUpdate();
             ps.close();
 

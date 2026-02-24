@@ -16,18 +16,32 @@ public class RelacionData {
         this.conexion = con;
     }
     
+    public void borrarRAF(int idAsiento){
+        String sql="DELETE relacionasientodata WHERE idAsiento=?";
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1, idAsiento);
+            ps.executeUpdate();
+            ps.close();
+        }catch(SQLException ex){
+            System.out.println("Error al borrar la RAF"+ex.getMessage());
+        }
+    }
+    
     //FUNCION -> SALA
     //ASIENTOS -> SALA
     public ArrayList<RelacionAsientoFuncion> listarAsientosDeFuncion(int idFuncion){
         ArrayList<RelacionAsientoFuncion> lista = new ArrayList<>();
         String sql="""
-                   SELECT *
-                   FROM asiento
-                   WHERE NroSala = (
-                        SELECT NroSala
-                        FROM funcion
-                        WHERE idFuncion=?
-                   )ORDER BY fila AND numero
+                   SELECT raf.idRelacion,
+                          raf.idFuncion,
+                          raf.idAsiento,
+                          raf.ocupado,
+                          a.fila,
+                          a.numero
+                   FROM relacionasientofuncion raf
+                   JOIN asiento a ON raf.idAsiento = a.idAsiento
+                   WHERE raf.idFuncion = ?
+                   ORDER BY a.fila, a.numero;
                    """;
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
         ps.setInt(1, idFuncion);
@@ -38,14 +52,15 @@ public class RelacionData {
                     raf.setIdRelacion(rs.getInt("idRelacion"));
                     
                     Funcion f = new Funcion();
-                    f.getIdFuncion();
+                    f.setIdFuncion(rs.getInt("idFuncion"));
                     raf.setFuncion(f);
                     
                     Asiento a = new Asiento();
-                    a.getIdAsiento();
-                    raf.setAsiento(a);
+                    a.setIdAsiento(rs.getInt("idAsiento"));
+                    a.setFila(rs.getString("fila"));
+                    a.setNumero(rs.getInt("numero"));
                     
-                    raf.setOcupado(rs.getBoolean("null"));
+                    raf.setAsiento(a);
                     
                     lista.add(raf);
                 }
@@ -56,25 +71,58 @@ public class RelacionData {
         return lista;
     }
     
-//    //Imprimir ordenado
-//        
-//        Map<String, List<Asiento>> asientosPorFila = new TreeMap<>();
-//        
-//        for(Asiento a: lista){
-//            String fila = a.getFila().toUpperCase();
-//            asientosPorFila.putIfAbsent(fila, new ArrayList<>());
-//            asientosPorFila.get(fila).add(a);
-//        }
-//        
-//        for(String fila : asientosPorFila.keySet()){
-//            System.out.print(fila + ": ");
-//            List<Asiento> asientos = asientosPorFila.get(fila);
-//            asientos.sort(Comparator.comparingInt(Asiento::getNumero));
-//            for(Asiento a: asientos){
-//                System.out.print(a.getNumero() + " ");
-//            }
-//            System.out.println();
-//        }
+    public ArrayList<Asiento> imprimirAsientosOrdenado(int idFuncion){
+        ArrayList<Asiento> lista = new ArrayList<>();
+        String sql="""
+                   SELECT *
+                   FROM asiento
+                   WHERE NroSala=(
+                        SELECT NroSala
+                        FROM funcion
+                        WHERE idFuncion=?
+                   )
+                   """;
+        Map<String, List<Asiento>> asientosPorFila = new TreeMap<>();
+        
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1, idFuncion);
+            try(ResultSet rs=ps.executeQuery()){
+                while(rs.next()){
+                Asiento a = new Asiento();
+                a.setIdAsiento(rs.getInt("idAsiento"));
+                a.setFila(rs.getString("fila"));
+                a.setNumero(rs.getInt("numero"));
+                
+                Sala s = new Sala();
+                    s.getNroSala();
+                a.setSala(s);
+                
+                lista.add(a);
+                }
+            }
+            
+        } catch (SQLException ex) {
+            System.getLogger(RelacionData.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+       for(Asiento a: lista){
+            String fila = a.getFila().toUpperCase();
+            asientosPorFila.putIfAbsent(fila, new ArrayList<>());
+            asientosPorFila.get(fila).add(a);
+        }
+        
+        for(String fila : asientosPorFila.keySet()){
+            System.out.print(fila + ": ");
+            List<Asiento> asientos = asientosPorFila.get(fila);
+            asientos.sort(Comparator.comparingInt(Asiento::getNumero));
+            for(Asiento a: asientos){
+               System.out.print(a.getNumero() + " ");
+            }
+            System.out.println();
+        }
+        return lista;
+    } 
+        
     
     public void crearRelacionAsientoFuncion(int idFuncion){
         PreparedStatement ps =null;
