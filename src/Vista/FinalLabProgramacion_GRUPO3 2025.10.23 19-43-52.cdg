@@ -2,7 +2,7 @@
 
 <ClassDiagram name="FinalLabProgramacion_GRUPO3">
   <ClassDiagramComponents>
-    <Class name="Asiento" package="finallabprogramacion_grupo3" visibility="public" xPosition="301.0" yPosition="292.0">
+    <Class name="Asiento" package="finallabprogramacion_grupo3" visibility="public" xPosition="297.0" yPosition="304.0">
       <Fields>
         <Field name="idAsiento" type="int" visibility="private"/>
         <Field name="fila" type="String" visibility="private"/>
@@ -12,7 +12,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="Comprador" package="finallabprogramacion_grupo3" visibility="public" xPosition="511.0" yPosition="628.0">
+    <Class name="Comprador" package="finallabprogramacion_grupo3" visibility="public" xPosition="505.0" yPosition="628.0">
       <Fields>
         <Field name="idComprador" type="int" visibility="private"/>
         <Field name="dni" type="int" visibility="private"/>
@@ -96,7 +96,7 @@
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="RelacionAsientoFuncion" package="" visibility="public" xPosition="32.0" yPosition="373.0">
+    <Class name="RelacionAsientoFuncion" package="" visibility="public" xPosition="32.0" yPosition="400.0">
       <Fields>
         <Field name="idRelacion" type="int" visibility="private"/>
         <Field name="idFuncion" type="int" visibility="private"/>
@@ -108,12 +108,12 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Asiento" target="RelacionAsientoFuncion" type="Composition" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
-    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Comprador" target="finallabprogramacion_grupo3.TicketCompra" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Sala" target="finallabprogramacion_grupo3.Asiento" type="Composition" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
-    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.TicketCompra" target="RelacionAsientoFuncion" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Pelicula" target="finallabprogramacion_grupo3.Funcion" type="Default" sourceCardinality="0..1" targetCardinality="1..1" collectionType="List"/>
     <HasRelation name="RAF" source="finallabprogramacion_grupo3.Funcion" target="RelacionAsientoFuncion" type="Composition" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
+    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Comprador" target="finallabprogramacion_grupo3.TicketCompra" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
+    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Pelicula" target="finallabprogramacion_grupo3.Funcion" type="Default" sourceCardinality="0..1" targetCardinality="1..1" collectionType="List"/>
+    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.TicketCompra" target="RelacionAsientoFuncion" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Asiento" target="RelacionAsientoFuncion" type="Composition" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
     <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Sala" target="finallabprogramacion_grupo3.Funcion" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="Tiene" source="finallabprogramacion_grupo3.Sala" target="finallabprogramacion_grupo3.Asiento" type="Composition" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
   </ClassDiagramRelations>
 </ClassDiagram>
