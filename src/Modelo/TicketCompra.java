@@ -12,34 +12,32 @@ import java.time.LocalDate;
  */
 public class TicketCompra {
     private int idTicketCompra;
-    private Funcion funcion;
-    private RelacionAsientoFuncion relacion;
     private Comprador idComprador;
+    private RelacionAsientoFuncion relacion;
+    private Funcion funcion;
     private LocalDate fechaCompra;
     private double monto;
 
     public TicketCompra() {
     }
 
-    public TicketCompra(int idTicketCompra, Funcion funcion, RelacionAsientoFuncion relacion, 
-            Comprador idComprador, LocalDate fechaCompra, double monto) {
+    public TicketCompra(int idTicketCompra, Comprador idComprador, RelacionAsientoFuncion relacion, Funcion funcion, LocalDate fechaCompra, double monto) {
         this.idTicketCompra = idTicketCompra;
-        this.funcion = funcion;
-        this.relacion = relacion;
         this.idComprador = idComprador;
+        this.relacion = relacion;
+        this.funcion = funcion;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
     }
-    
-    public TicketCompra(Funcion funcion, RelacionAsientoFuncion relacion, 
-            Comprador idComprador, LocalDate fechaCompra, double monto) {
-        this.funcion = funcion;
-        this.relacion = relacion;
+
+    public TicketCompra(Comprador idComprador, RelacionAsientoFuncion relacion, Funcion funcion, LocalDate fechaCompra, double monto) {
         this.idComprador = idComprador;
+        this.relacion = relacion;
+        this.funcion = funcion;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
     }
-    
+
     public int getIdTicketCompra() {
         return idTicketCompra;
     }

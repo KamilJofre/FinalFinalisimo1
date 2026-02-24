@@ -62,20 +62,20 @@ public class TicketCompraData {
             if (rs.next()) {
 
                 // Objetos relacionados
-                Funcion f = new Funcion();
-                f.setIdFuncion(rs.getInt("idFuncion"));
-                
-                RelacionAsientoFuncion raf = new RelacionAsientoFuncion();
-                raf.setIdRelacion(rs.getInt("idAsiento"));
-                
                 Comprador c = new Comprador();
                 c.setDni(rs.getInt("idComprador"));
 
+                Asiento a = new Asiento();
+                a.setIdAsiento(rs.getInt("idAsiento"));
+
+                Funcion f = new Funcion();
+                f.setIdFuncion(rs.getInt("idFuncion"));
+
                 t = new TicketCompra(
                         rs.getInt("idTicketCompra"),
-                        f,
-                        raf,
                         c,
+                        a,
+                        f,
                         rs.getDate("fechaCompra").toLocalDate(),
                         rs.getDouble("monto")
                 );
@@ -108,20 +108,20 @@ public class TicketCompraData {
                 TicketCompra t = new TicketCompra();
                 t.setIdTicketCompra(rs.getInt("idTicketCompra"));
 
-                // Función
-                Funcion f = new Funcion();
-                f.setIdFuncion(rs.getInt("idFuncion"));
-                t.setFuncion(f);
-                
-                // Asiento
-                RelacionAsientoFuncion a = new RelacionAsientoFuncion();
-                a.setIdRelacion(rs.getInt("idRelacion"));
-                t.setIdAsiento(a);
-                
                 // Comprador
                 Comprador c = new Comprador();
                 c.setDni(rs.getInt("idComprador"));
                 t.setIdComprador(c);
+
+                // Asiento
+                Asiento a = new Asiento();
+                a.setIdAsiento(rs.getInt("idAsiento"));
+                t.setIdAsiento(a);
+
+                // Función
+                Funcion f = new Funcion();
+                f.setIdFuncion(rs.getInt("idFuncion"));
+                t.setIdFuncion(f);
 
                 t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
                 t.setMonto(rs.getDouble("monto"));
