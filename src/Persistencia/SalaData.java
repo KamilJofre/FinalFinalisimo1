@@ -25,7 +25,9 @@ public class SalaData {
         String sql = "INSERT INTO sala (NroSala, apta3D, capacidad, estado) VALUES (?, ?, ?, ?)";
         try{ 
             //metodos para llevarle los datos a la base
+            Connection con = Conexion.getConexion();
             PreparedStatement ps = conexion.prepareStatement(sql);
+            
             
             //ahi lo que pasa es que es un objetio del tipo Funcion
             //entonces tenes q llamar al objeto mediante getFuncion()
@@ -38,7 +40,6 @@ public class SalaData {
             
             // ahi le manda eso a la base
             ps.executeUpdate();
-            ps.close();
             
             
             System.out.println("Sala insertada correctamente.");
@@ -66,7 +67,6 @@ public class SalaData {
                         rs.getBoolean("estado")
                         );
             }
-            ps.close();
         } catch (SQLException ex) {
             System.out.println("Error al buscar sala" + ex.getMessage());
         }
@@ -93,7 +93,6 @@ public class SalaData {
                     );
                 lista.add(s);
             }
-            ps.close();
         }   catch(SQLException ex){
             System.out.println("Erros: al listar salas: "+ex.getMessage());
         }
@@ -134,7 +133,6 @@ public class SalaData {
                 
                 lista.add(f);
             }   
-            ps.close();
         } catch (SQLException ex) {
             System.out.println("Error al listar funciones: " + ex.getMessage());
         }
@@ -154,7 +152,6 @@ public class SalaData {
             ps.setInt(4, s.getNroSala());
             
             ps.executeUpdate();
-            ps.close();
             
              System.out.println("Sala actualizada.");
         } catch(SQLException ex){
@@ -169,7 +166,6 @@ public class SalaData {
             PreparedStatement ps = conexion.prepareStatement(sql);
             ps.setInt(1, NroSala);
             ps.executeUpdate();
-            ps.close();
         } catch (SQLException ex) {
             System.out.println("Error al dar de baja sala: " + ex.getMessage());
         }

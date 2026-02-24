@@ -4,9 +4,7 @@
  */
 package Vista;
 
-import Modelo.*;
-import Persistencia.*;
-import Vista.*;
+
 /**
  *
  * @author kamil
@@ -195,44 +193,44 @@ public class vistaAdmin extends javax.swing.JFrame {
         // TODO add your handling code here
         
         // Acción del botón
-        jButtonIrPelicula.addActionListener(e -> {
+        
             vistaPelicula ventana = new vistaPelicula();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     
     }//GEN-LAST:event_jButtonIrPeliculaActionPerformed
 
     private void jButtonIrSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrSalaActionPerformed
-        jButtonIrSala.addActionListener(e -> {
+       
             vistaSala ventana = new vistaSala();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonIrSalaActionPerformed
 
     private void jButtonIrFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrFuncionActionPerformed
-        jButtonIrFuncion.addActionListener(e -> {
+        
             vistaFuncion ventana = new vistaFuncion();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonIrFuncionActionPerformed
 
     private void jButtonIrAsientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrAsientoActionPerformed
-        jButtonIrAsiento.addActionListener(e -> {
-            vistaAsiento ventana = new vistaAsiento();
+       
+            vistaAsientoRAF ventana = new vistaAsientoRAF();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+       
     }//GEN-LAST:event_jButtonIrAsientoActionPerformed
 
     private void jButtonVolverSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverSeleccionActionPerformed
-        jButtonVolverSeleccion.addActionListener(e -> {
+       
             Seleccion ventana = new Seleccion();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+       
     }//GEN-LAST:event_jButtonVolverSeleccionActionPerformed
 
     /**

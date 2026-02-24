@@ -13,24 +13,21 @@ public class Asiento {
     private int idAsiento;
     private String fila;
     private int numero;
-    private boolean estado;
     private Sala sala;
 
     public Asiento() {}
 
-    public Asiento(int idAsiento, String fila, int numero, boolean estado, Sala sala) {
+    public Asiento(int idAsiento, String fila, int numero, Sala sala) {
         this.idAsiento = idAsiento;
-        this.fila = fila;
-        this.numero = numero;
-        this.estado = estado;
+        this.fila=fila;
+        this.numero=numero;
         this.sala = sala;
     }
 
-    public Asiento( String fila, int numero, boolean estado, Sala sala) {
-        this.fila = fila;
-        this.numero = numero;
-        this.estado = estado;
-        this.sala= sala;
+    public Asiento( String fila, int numero, Sala sala) {
+        this.fila=fila;
+        this.numero=numero;
+        this.sala = sala;
     }
 
     public Sala getSala() {
@@ -64,14 +61,9 @@ public class Asiento {
     public void setNumero(int numero) {
         this.numero = numero;
     }
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
     
+    @Override 
+    public String toString(){
+        return "Asiento " + fila+numero + "(Sala " +sala.getNroSala()+")";
+    }
 }

@@ -26,8 +26,8 @@ public class TicketCompraData {
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, t.getIdComprador().getDni());
-            ps.setInt(2, t.getIdAsiento().getIdAsiento());
-            ps.setInt(3, t.getIdFuncion().getIdFuncion());
+            ps.setInt(2, t.getRelacion().getIdRelacion());
+            ps.setInt(3, t.getFuncion().getIdFuncion());
             ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
 

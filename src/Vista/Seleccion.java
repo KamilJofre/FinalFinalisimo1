@@ -132,33 +132,33 @@ public class Seleccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAbrirAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirAdminActionPerformed
-        jButtonAbrirAdmin.addActionListener(e -> {
+        
             vistaAdmin ventana = new vistaAdmin();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonAbrirAdminActionPerformed
 
     private void jButtonAbrirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirClienteActionPerformed
-        jButtonAbrirCliente.addActionListener(e -> {
+        
             vistaCliente ventana = new vistaCliente();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonAbrirClienteActionPerformed
 
     private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
-        jButtonCerrar.addActionListener(e -> {
+        
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     private void jButtonAbrirCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirCarteleraActionPerformed
-        jButtonAbrirCartelera.addActionListener(e -> {
+        
             vistaCartelera ventana = new vistaCartelera();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        });
+        
     }//GEN-LAST:event_jButtonAbrirCarteleraActionPerformed
 
     /**
