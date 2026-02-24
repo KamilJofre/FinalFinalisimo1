@@ -6,11 +6,8 @@ package Persistencia;
 
 import java.sql.Connection;
 import Modelo.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
-
 
 public class RelacionData {
     private Connection conexion;
@@ -75,12 +72,43 @@ public class RelacionData {
         return lista;
     }
     
+    public void crearRelacionAsientoFuncion(int idFuncion){
+        PreparedStatement ps =null;
+        String sql="""
+                   INSERT INTO relacionasientofuncion (idFuncion, idAsiento, ocupado)
+                   SELECT f.idFuncion, a.idAsiento, null
+                   FROM funcion f
+                   JOIN asiento a ON f.NroSala=a.NroSala
+                   WHERE f.idFuncion=?
+                   """;
+        
+        try{
+            ps = conexion.prepareStatement(sql);
+            ps.setInt(1, idFuncion);
+            int filasInsertadas = ps.executeUpdate();
+            System.out.println("Relaciones creadas: " +filasInsertadas);
+            ps.close();
+        } catch(SQLException ex){
+            System.out.println("Error al guardar la RAF "+ex.getMessage());
+        }
+    }
+    
     public void estadoAsiento(int idFuncion, int idAsiento){
         //chequea el estado de un lugar
     }
     
     public void ocuparAsiento(){
         //ocupa lugar mediante seleccion del cliente
+    }
+    
+    public void borrarGrupoRelaciones(int idFuncion){
+        String sql="DELETE FROM relacionasientofuncion WHERE idFuncion=?";
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1, idFuncion);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error al borrar la RAF pertinente" + ex.getMessage());
+        }
     }
     
 }

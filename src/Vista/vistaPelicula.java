@@ -61,7 +61,7 @@ public class vistaPelicula extends javax.swing.JFrame {
         placeHolder(jTextOrigen, "ORIGEN");
         placeHolder(jTextPeliculaGenero, "GENERO");
         placeHolder(jTextPeliculaDuracion, "DURACION  (en minutos)");
-        placeHolder(jTextIdEliminarPelicula, "PELICULA A ELIMINAR");
+        placeHolder(jTextIdEliminarPelicula, "ID PELICULA A ELIMINAR");
         PeliculaData  = new PeliculaData(Conexion.getConexion());
         cargarTablaPeliculas();
     }

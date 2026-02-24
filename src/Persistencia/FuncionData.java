@@ -6,6 +6,7 @@ package Persistencia;
 
 import Modelo.*;
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.*;
 
 public class FuncionData {
@@ -47,6 +48,34 @@ public class FuncionData {
         } catch (SQLException ex) {
             System.out.println("Error al guardar función: " + ex.getMessage());
         }
+    }
+    
+    //chequear posibilidad para horario de funcion
+    public boolean solapamiento(int NroSala, LocalTime nueavaInicio, LocalTime nuevaFin){
+        String sql = """
+                     SELECT *
+                     FROM funcion 
+                     WHERE NroSala=? 
+                     AND <? horaFin
+                     AND >? horaInicio
+                     """;
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1, NroSala);
+            ps.setObject(2, nueavaInicio);
+            ps.setObject(3, nuevaFin);
+            
+            ResultSet rs= ps.executeQuery();
+            
+            if(rs.next()){
+                return rs.getInt(1)>0;
+            }
+            ps.close();
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("Error: ya existe una funcion durante la hora seleccionada" + ex.getMessage());
+        }
+        return false;
     }
 
     //Buscar funcion
