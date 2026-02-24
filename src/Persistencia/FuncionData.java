@@ -6,8 +6,6 @@ package Persistencia;
 
 import Modelo.*;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
 public class FuncionData {
@@ -49,36 +47,6 @@ public class FuncionData {
         } catch (SQLException ex) {
             System.out.println("Error al guardar función: " + ex.getMessage());
         }
-    }
-    
-    //chequear posibilidad para horario de funcion
-    public boolean solapamiento(int NroSala, LocalDate fechaNueva,  LocalTime nueavaInicio, LocalTime nuevaFin){
-        String sql = """
-                     SELECT *
-                     FROM funcion 
-                     WHERE NroSala=? 
-                     AND fechaFuncion=?
-                     AND ? < horaFin
-                     AND ? > horaInicio
-                     """;
-        try(PreparedStatement ps = conexion.prepareStatement(sql)){
-            ps.setInt(1, NroSala);
-            ps.setObject(2,fechaNueva);
-            ps.setObject(3, nueavaInicio);
-            ps.setObject(4, nuevaFin);
-            
-            ResultSet rs= ps.executeQuery();
-            
-            if(rs.next()){
-                return rs.getInt(1)>0;
-            }
-            ps.close();
-            
-            
-        } catch (SQLException ex) {
-            System.out.println("Error: ya existe una funcion durante la hora seleccionada" + ex.getMessage());
-        }
-        return false;
     }
 
     //Buscar funcion
@@ -146,59 +114,6 @@ public class FuncionData {
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Funcion f = new Funcion();
-
-                f.setIdFuncion(rs.getInt("idFuncion"));
-
-                Pelicula p = new Pelicula();
-                p.setIdPelicula(rs.getInt("idPelicula"));
-                p.setTitulo(rs.getString("titulo_pelicula"));
-                f.setPelicula(p);
-
-                Sala s = new Sala();
-                s.setNroSala(rs.getInt("NroSala"));
-                f.setSala(s);
-
-                f.setIdioma(rs.getString("idioma"));
-                f.setEs3D(rs.getBoolean("es3D"));
-                f.setSubtitulada(rs.getBoolean("subtitulada"));
-                f.setFechaFuncion(rs.getDate("fechaFuncion").toLocalDate());
-                f.setHoraInicio(rs.getTime("horaInicio").toLocalTime());    
-                f.setHoraFin(rs.getTime("horaFin").toLocalTime());        
-                f.setPrecio(rs.getDouble("precio"));            
-
-                lista.add(f);
-            }
-
-            ps.close();
-
-        } catch (SQLException ex) {
-            System.out.println("Error al listar funciones: " + ex.getMessage());
-        }
-
-        return lista;
-    }
-    
-    //funcionesDePelicula
-    public ArrayList<Funcion> funcionesDePelicula(int idPelicula) {
-        ArrayList<Funcion> lista = new ArrayList<>();
-        String sql = """             
-                    SELECT f.*, p.titulo AS titulo_pelicula, s.NroSala
-                    FROM funcion f
-                    JOIN pelicula p ON f.idPelicula = p.idPelicula
-                    JOIN sala s ON f.NroSala = s.NroSala
-                    WHERE f.idPelicula=?
-                    ORDER BY f.fechaFuncion, f.horaInicio
-                """;
-
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            ps = conexion.prepareStatement(sql);
-            ps.setInt(1,idPelicula);
-            rs = ps.executeQuery();
 
             while (rs.next()) {
                 Funcion f = new Funcion();

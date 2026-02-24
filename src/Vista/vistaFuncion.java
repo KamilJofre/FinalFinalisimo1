@@ -32,11 +32,9 @@ public class vistaFuncion extends javax.swing.JFrame {
     private JSpinner horaInicio;
     private SalaData SalaData;
     private PeliculaData PeliculaData;
-    private RelacionData RelacionData;
     private FuncionData FuncionData;
     Connection con = Conexion.getConexion();
     FuncionData pd = new FuncionData(con);
-    RelacionData pd1 = new RelacionData(con);
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaFuncion.class.getName());
 
@@ -48,7 +46,6 @@ public class vistaFuncion extends javax.swing.JFrame {
         FuncionData = new FuncionData(Conexion.getConexion());
         PeliculaData = new PeliculaData(Conexion.getConexion());
         SalaData = new SalaData(Conexion.getConexion());
-        RelacionData = new RelacionData(Conexion.getConexion());
         cargarTablaSalas();
         cargarTablaFunciones();
         cargarTablaPeliculas();
@@ -288,16 +285,16 @@ public class vistaFuncion extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(100, 149, 237));
@@ -384,7 +381,7 @@ public class vistaFuncion extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,7 +408,7 @@ public class vistaFuncion extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,7 +438,7 @@ public class vistaFuncion extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldFuncionEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jTextFieldFuncionEliminar)
                     .addComponent(jButtonEliminarFuncion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -461,10 +458,10 @@ public class vistaFuncion extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -489,9 +486,9 @@ public class vistaFuncion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -566,21 +563,17 @@ public class vistaFuncion extends javax.swing.JFrame {
         
         Funcion f = new Funcion (pelicula , sala,idioma , es3d, esSubtitulada,fecha, horaInicio,horaFin, precio);
         
-        if(pd.solapamiento(sala.getNroSala(),fecha,horaInicio, horaFin)){
-            JOptionPane.showMessageDialog(this,"Ya existe una funcion en el horario seleccionado.");
-            return;
-        }
-        
         try{
             pd.guardarFuncion(f);
-            pd1.crearRelacionAsientoFuncion(f.getIdFuncion());
             JOptionPane.showMessageDialog(this, "✅ Funcion agregada con extio ✅");
 
             cargarTablaFunciones();
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, "❌ Funcion al agregar pelicula ❌" + e.getMessage());
         }
-    cargarTablaFunciones();
+        
+        
+        cargarTablaFunciones();
     }//GEN-LAST:event_jButtonEnviarFuncionActionPerformed
 
     private void jTextFuncionPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFuncionPrecioActionPerformed
@@ -600,11 +593,11 @@ public class vistaFuncion extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFuncionIdiomaActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
-        
+        jButtonVolver.addActionListener(e -> {
             vistaAdmin ventana = new vistaAdmin();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        
+        });
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
     private void jTextFieldFuncionEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFuncionEliminarActionPerformed
@@ -613,24 +606,13 @@ public class vistaFuncion extends javax.swing.JFrame {
 
     private void jButtonEliminarFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarFuncionActionPerformed
         String  textoBorrar=jTextFieldFuncionEliminar.getText();
-        
-        if(textoBorrar == null || textoBorrar.isBlank()){
-            JOptionPane.showMessageDialog(this, "Indique el ID de la función a borrar");
+        if(textoBorrar.isBlank()){
+            JOptionPane.showMessageDialog(this, "Indice el ID  de la función a eliminar.");
             return;
         }
-        
-        try{
-            int borrarFuncion= Integer.parseInt(textoBorrar);
-            pd1.borrarGrupoRelaciones(borrarFuncion);
-            pd.borrarFuncion(borrarFuncion);
-            
-            JOptionPane.showMessageDialog(this, "Función eliminada.");
-        } catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(this, "El ID debe ser numerico.");
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar la función."+e.getMessage());
-        }
-        
+        int borrarFuncion=Integer.parseInt(textoBorrar);
+        FuncionData.borrarFuncion(borrarFuncion);
+        JOptionPane.showMessageDialog(this, "Función eliminada.");
         cargarTablaFunciones();
     }//GEN-LAST:event_jButtonEliminarFuncionActionPerformed
 

@@ -20,13 +20,12 @@ import javax.swing.table.DefaultTableModel;
  * @author kamil
  */
 public class vistaPelicula extends javax.swing.JFrame {
+    private PeliculaData PeliculaData;
     private JSpinner horaInicio;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaPelicula.class.getName());
 
     Connection con = Conexion.getConexion();
-    private PeliculaData PeliculaData;
     PeliculaData pd = new PeliculaData(con);
-    
     
     
     public void placeHolder(JTextField txt, String texto){
@@ -61,7 +60,6 @@ public class vistaPelicula extends javax.swing.JFrame {
         placeHolder(jTextOrigen, "ORIGEN");
         placeHolder(jTextPeliculaGenero, "GENERO");
         placeHolder(jTextPeliculaDuracion, "DURACION  (en minutos)");
-        placeHolder(jTextIdEliminarPelicula, "ID PELICULA A ELIMINAR");
         PeliculaData  = new PeliculaData(Conexion.getConexion());
         cargarTablaPeliculas();
     }
@@ -111,9 +109,6 @@ public class vistaPelicula extends javax.swing.JFrame {
         jButtonEnviarPelicula = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListaPeliculas = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
-        jButtonEliminar = new javax.swing.JButton();
-        jTextIdEliminarPelicula = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -242,14 +237,14 @@ public class vistaPelicula extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonEnviarPelicula, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(jButtonEnviarPelicula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonEnviarPelicula)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonVolver)
@@ -269,55 +264,16 @@ public class vistaPelicula extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTableListaPeliculas);
 
-        jPanel5.setBackground(new java.awt.Color(100, 149, 237));
-
-        jButtonEliminar.setText("ELMINAR");
-        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarActionPerformed(evt);
-            }
-        });
-
-        jTextIdEliminarPelicula.setText("PELICULA ELIMINAR");
-        jTextIdEliminarPelicula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextIdEliminarPeliculaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(jTextIdEliminarPelicula))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
-                .addComponent(jTextIdEliminarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonEliminar)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                 .addContainerGap())
@@ -331,11 +287,10 @@ public class vistaPelicula extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -364,11 +319,11 @@ public class vistaPelicula extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEnviarPeliculaActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
-        
+        jButtonVolver.addActionListener(e -> {
             vistaAdmin ventana = new vistaAdmin();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
-        
+        });
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
     private void jTextOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextOrigenActionPerformed
@@ -403,24 +358,6 @@ public class vistaPelicula extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextPeliculaDuracionActionPerformed
 
-    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        // TODO add your handling code here:
-        int idEliminar  = Integer.parseInt(jTextIdEliminarPelicula.getText());
-        
-        try{
-            pd.borrarPelicula(idEliminar);
-            JOptionPane.showMessageDialog(this,"Pelicula elminada correctamente ✔.");
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar la pelicula, quedan funciones pendientes ⏳."+e.getMessage());
-        }
-        
-        cargarTablaPeliculas();
-    }//GEN-LAST:event_jButtonEliminarActionPerformed
-
-    private void jTextIdEliminarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextIdEliminarPeliculaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextIdEliminarPeliculaActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -447,17 +384,14 @@ public class vistaPelicula extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonEnviarPelicula;
     private javax.swing.JButton jButtonVolver;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableListaPeliculas;
-    private javax.swing.JTextField jTextIdEliminarPelicula;
     private javax.swing.JTextField jTextOrigen;
     private javax.swing.JTextField jTextPeliculaDirector;
     private javax.swing.JTextField jTextPeliculaDuracion;
