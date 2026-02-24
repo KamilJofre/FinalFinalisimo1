@@ -61,5 +61,10 @@ public class RelacionAsientoFuncion {
     public void setOcupado(boolean ocupado) {
         this.ocupado = ocupado;
     }
+    
+    @Override
+    public String toString(){
+        return asiento.getFila()+asiento.getNumero();
+    }
 }
 

@@ -18,8 +18,8 @@ public class RelacionData {
     
     //FUNCION -> SALA
     //ASIENTOS -> SALA
-    public ArrayList<Asiento> listarAsientosDeFuncion(int idFuncion){
-        ArrayList<Asiento> lista = new ArrayList<>();
+    public ArrayList<RelacionAsientoFuncion> listarAsientosDeFuncion(int idFuncion){
+        ArrayList<RelacionAsientoFuncion> lista = new ArrayList<>();
         String sql="""
                    SELECT *
                    FROM asiento
@@ -34,43 +34,47 @@ public class RelacionData {
         
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    RelacionAsientoFuncion raf = new RelacionAsientoFuncion();
+                    raf.setIdRelacion(rs.getInt("idRelacion"));
+                    
+                    Funcion f = new Funcion();
+                    f.getIdFuncion();
+                    raf.setFuncion(f);
+                    
                     Asiento a = new Asiento();
-                    a.setIdAsiento(rs.getInt("idAsiento"));
-                    a.setFila(rs.getString("fila"));
-                    a.setNumero(rs.getInt("numero"));
+                    a.getIdAsiento();
+                    raf.setAsiento(a);
                     
-                    Sala s = new Sala();
-                    s.setNroSala(rs.getInt("NroSala"));
-                    a.setSala(s);
+                    raf.setOcupado(rs.getBoolean("null"));
                     
-                    lista.add(a);
+                    lista.add(raf);
                 }
             }
         } catch (SQLException ex) {
             System.out.println("Error al listar los asientos de la funcion" + ex.getMessage());
         } 
-        
-        //Imprimir ordenado
-        
-        Map<String, List<Asiento>> asientosPorFila = new TreeMap<>();
-        
-        for(Asiento a: lista){
-            String fila = a.getFila().toUpperCase();
-            asientosPorFila.putIfAbsent(fila, new ArrayList<>());
-            asientosPorFila.get(fila).add(a);
-        }
-        
-        for(String fila : asientosPorFila.keySet()){
-            System.out.print(fila + ": ");
-            List<Asiento> asientos = asientosPorFila.get(fila);
-            asientos.sort(Comparator.comparingInt(Asiento::getNumero));
-            for(Asiento a: asientos){
-                System.out.print(a.getNumero() + " ");
-            }
-            System.out.println();
-        }
         return lista;
     }
+    
+//    //Imprimir ordenado
+//        
+//        Map<String, List<Asiento>> asientosPorFila = new TreeMap<>();
+//        
+//        for(Asiento a: lista){
+//            String fila = a.getFila().toUpperCase();
+//            asientosPorFila.putIfAbsent(fila, new ArrayList<>());
+//            asientosPorFila.get(fila).add(a);
+//        }
+//        
+//        for(String fila : asientosPorFila.keySet()){
+//            System.out.print(fila + ": ");
+//            List<Asiento> asientos = asientosPorFila.get(fila);
+//            asientos.sort(Comparator.comparingInt(Asiento::getNumero));
+//            for(Asiento a: asientos){
+//                System.out.print(a.getNumero() + " ");
+//            }
+//            System.out.println();
+//        }
     
     public void crearRelacionAsientoFuncion(int idFuncion){
         PreparedStatement ps =null;
