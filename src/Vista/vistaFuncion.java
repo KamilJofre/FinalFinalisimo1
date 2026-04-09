@@ -138,18 +138,20 @@ public class vistaFuncion extends javax.swing.JFrame {
         );
         jTableListaPeliculas.setModel(modelo);
         for (Pelicula p : PeliculaData.listarPeliculas()) {
-            int minutos=p.getDuracion();
-            int horas = p.getDuracion()/60;
-            int restante = p.getDuracion()%60;
-            
-            modelo.addRow(new Object[]{
-                p.getIdPelicula(),
-                p.getTitulo(),
-                horas+"h"+restante+"m",
-                p.getDirector(),
-                p.getOrigen(),
-                p.getGenero()
-            });
+            if(p.isEnCartelera()){
+                int minutos=p.getDuracion();
+                int horas = p.getDuracion()/60;
+                int restante = p.getDuracion()%60;
+
+                modelo.addRow(new Object[]{
+                    p.getIdPelicula(),
+                    p.getTitulo(),
+                    horas+"h"+restante+"m",
+                    p.getDirector(),
+                    p.getOrigen(),
+                    p.getGenero()
+                });
+            }
         }
     }
     private void inicializarSpinnerHora() {
@@ -568,6 +570,11 @@ public class vistaFuncion extends javax.swing.JFrame {
         
         if(pd.solapamiento(sala.getNroSala(),fecha,horaInicio, horaFin)){
             JOptionPane.showMessageDialog(this,"Ya existe una funcion en el horario seleccionado.");
+            return;
+        }
+        
+        if(!PeliculaData.checkCartelera(pelicula.getIdPelicula())){
+            JOptionPane.showMessageDialog(this, "Pelicula no disponible para funcion.");
             return;
         }
         

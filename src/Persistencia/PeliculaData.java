@@ -23,8 +23,8 @@ public class PeliculaData {
 
     //Insertar pelicula
     public void guardarPelicula(Pelicula p){
-        String sql ="INSERT INTO pelicula (titulo, duracion, director, origen, genero) "
-                   + "VALUES (?,?,?,?,?)";
+        String sql ="INSERT INTO pelicula (titulo, duracion, director, origen, genero,enCartelera) "
+                   + "VALUES (?,?,?,?,?,?)";
         try{
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
@@ -33,6 +33,7 @@ public class PeliculaData {
             ps.setString(3, p.getDirector());
             ps.setString(4, p.getOrigen());
             ps.setString(5, p.getGenero());
+            ps.setBoolean(6, p.isEnCartelera());
 
             ps.executeUpdate();
             
@@ -63,7 +64,8 @@ public class PeliculaData {
                     rs.getInt("duracion"),
                     rs.getString("director"),
                     rs.getString("origen"),
-                    rs.getString("genero")
+                    rs.getString("genero"),
+                    rs.getBoolean("enCartelera")
                 );
             }
             ps.close();
@@ -91,13 +93,14 @@ public class PeliculaData {
                     rs.getInt("duracion"),
                     rs.getString("director"),
                     rs.getString("origen"),
-                    rs.getString("genero")
+                    rs.getString("genero"),
+                    rs.getBoolean("enCartelera")
                 );
             }
             ps.close();
             
         } catch (SQLException ex) {
-            System.out.println("rror al buscar película: " + ex.getMessage());
+            System.out.println("Error al buscar película: " + ex.getMessage());
         }
         return p;
     }
@@ -118,7 +121,8 @@ public class PeliculaData {
                         rs.getInt("duracion"),
                         rs.getString("director"),
                         rs.getString("origen"),
-                        rs.getString("genero")
+                        rs.getString("genero"),
+                        rs.getBoolean("enCartelera")
                 );
                 lista.add(p);
             }
@@ -128,20 +132,35 @@ public class PeliculaData {
         }
         return lista;
     }
+    
+    //Check
+    public boolean checkCartelera(int idPelicula){
+        String sql="""
+                   SELECT enCartelera
+                   FROM pelicula
+                   WHERE idPelicula=?
+                   """;
+        try(PreparedStatement ps = conexion.prepareCall(sql)){
+            ps.setInt(1, idPelicula);
+            ResultSet rs= ps.executeQuery();
+            
+            if(rs.next()){
+                return rs.getBoolean("enCartelera");
+            }
+        } catch(SQLException ex){
+            System.out.println("Error al revisar estado de pelicula"+ex.getMessage());
+        }
+        return false;
+    }
 
     //Actualizar
     public void actualizarPelicula(Pelicula p) {
-        String sql = "UPDATE pelicula SET titulo=?, duracion=?, director=?, origen=?, genero=?"
+        String sql = "UPDATE pelicula SET enCarterlera=?"
                    + "WHERE idPelicula=?";
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
 
-            ps.setString(1, p.getTitulo());
-            ps.setInt(2, p.getDuracion());
-            ps.setString(3, p.getDirector());
-            ps.setString(4, p.getOrigen());
-            ps.setString(5, p.getGenero());
-            ps.setInt(6, p.getIdPelicula());
+            ps.setBoolean(1, p.isEnCartelera());
 
             ps.executeUpdate();
             ps.close();

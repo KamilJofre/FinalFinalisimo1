@@ -16,30 +16,41 @@ public class Pelicula {
     private String director;
     private String origen;
     private String genero;
+    private boolean enCartelera; 
 
 
     public Pelicula() {
     }
 
     public Pelicula(int idPelicula, String titulo, int duracion,
-            String director, String origen, String genero) {
+            String director, String origen, String genero,boolean enCartelera) {
         this.idPelicula = idPelicula;
         this.titulo = titulo;
         this.duracion = duracion;
         this.director = director;
         this.origen = origen;
         this.genero = genero;
+        this.enCartelera = enCartelera;
     }
     
     
 
     public Pelicula(String titulo, int duracion,
-            String director, String origen, String genero) {
+            String director, String origen, String genero,boolean enCartelera) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.director = director;
         this.origen = origen;
         this.genero = genero;
+        this.enCartelera = enCartelera;
+    }
+
+    public boolean isEnCartelera() {
+        return enCartelera;
+    }
+
+    public void setEnCartelera(boolean enCartelera) {
+        this.enCartelera = enCartelera;
     }
 
     public int getIdPelicula() {

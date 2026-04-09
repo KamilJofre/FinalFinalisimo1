@@ -4,9 +4,8 @@
  */
 package Vista;
 
-import Modelo.Pelicula;
-import Persistencia.Conexion;
-import Persistencia.PeliculaData;
+import Modelo.*;
+import Persistencia.*;
 import java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,15 +33,17 @@ public class vistaCartelera extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel(
     new Object[]{"Titulo", "Director", "Origen", "Genero"},0
         );
-        jTableCartelera.setModel(modelo);
+        jTableCarteleraPeliculas.setModel(modelo);
 
         for (Pelicula p : PeliculaData.listarPeliculas()) {
-            modelo.addRow(new Object[]{
-                p.getTitulo(),
-                p.getDirector(),
-                p.getOrigen(),
-                p.getGenero()
-            });
+            if(p.isEnCartelera()){
+                modelo.addRow(new Object[]{
+                    p.getTitulo(),
+                    p.getDirector(),
+                    p.getOrigen(),
+                    p.getGenero()
+                });
+            }
         }
     }
 
@@ -57,9 +58,10 @@ public class vistaCartelera extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableCartelera = new javax.swing.JTable();
+        jTableCarteleraPeliculas = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableCarteleraFunciones = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButtonVolverSeleccion = new javax.swing.JButton();
 
@@ -67,7 +69,7 @@ public class vistaCartelera extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jTableCartelera.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCarteleraPeliculas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -78,7 +80,7 @@ public class vistaCartelera extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTableCartelera);
+        jScrollPane1.setViewportView(jTableCarteleraPeliculas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,35 +95,28 @@ public class vistaCartelera extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
-        jPanel4.setBackground(new java.awt.Color(0, 204, 255));
-        jPanel4.setForeground(new java.awt.Color(102, 102, 102));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
-        );
+        jTableCarteleraFunciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTableCarteleraFunciones);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
         );
 
         jPanel3.setBackground(new java.awt.Color(100, 149, 237));
@@ -139,7 +134,7 @@ public class vistaCartelera extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonVolverSeleccion, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                .addComponent(jButtonVolverSeleccion, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -218,8 +213,9 @@ public class vistaCartelera extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableCartelera;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableCarteleraFunciones;
+    private javax.swing.JTable jTableCarteleraPeliculas;
     // End of variables declaration//GEN-END:variables
 }
