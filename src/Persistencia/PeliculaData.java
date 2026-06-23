@@ -104,7 +104,25 @@ public class PeliculaData {
         }
         return p;
     }
-
+    
+    //Buscar x ID
+    public boolean buscarPorIdPeliculaBool(int idPelicula){
+        String sql="SELECT 1 FROM pelicula WHERE idPelicula=?";
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+        
+            ps.setInt(1, idPelicula);
+            ResultSet rs = ps.executeQuery();
+            
+            return rs.next();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar película: " + ex.getMessage());
+            return true;
+        }
+    }
+    
     //Listar
     public List<Pelicula> listarPeliculas(){
         List<Pelicula> lista = new ArrayList<>();
@@ -131,6 +149,22 @@ public class PeliculaData {
             System.out.println("Error al listar películas: "+ex.getMessage());
         }
         return lista;
+    }
+    
+    public void cambiarCartelera(int idPelicula){
+        String sql="""
+                   UPDATE pelicula
+                   SET enCartelera = NOT enCartelera
+                   WHERE idPelicula=?
+                   """;
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+
+                ps.setInt(1, idPelicula);
+                ps.executeUpdate();
+            
+        } catch(SQLException ex){
+            System.out.println("Error al cambiar estado de cartelera: "+ex.getMessage());
+        }
     }
     
     //Check
