@@ -420,6 +420,8 @@ public class vistaPelicula extends javax.swing.JFrame {
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error al agregar pelicula ❌" + e.getMessage());
         }
+        
+        cargarTablaPeliculas();
     }//GEN-LAST:event_jButtonEnviarPeliculaActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed

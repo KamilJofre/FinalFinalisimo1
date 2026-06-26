@@ -12,12 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Vista/vistaFuncion.java</file>
-            <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Vista/vistaAsientoRAF.java</file>
-            <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Persistencia/Conexion.java</file>
             <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Modelo/Pelicula.java</file>
             <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Vista/vistaPelicula.java</file>
             <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Persistencia/PeliculaData.java</file>
+            <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Vista/vistaCartelera.java</file>
+            <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Modelo/Sala.java</file>
             <file>file:/D:/NETBEANS/FinalFinalisimo1/src/Vista/vistaCliente.java</file>
         </group>
     </open-files>
