@@ -77,7 +77,8 @@ public class TicketCompraData {
                         raf,
                         c,
                         rs.getDate("fechaCompra").toLocalDate(),
-                        rs.getDouble("monto")
+                        rs.getDouble("monto"),
+                        rs.getString("metodoPago")
                 );
             }
 

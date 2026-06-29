@@ -16,31 +16,41 @@ public class TicketCompra {
     private RelacionAsientoFuncion relacion;
     private Comprador comprador;
     private LocalDate fechaCompra;
+    private String metodoPago;
     private double monto;
 
     public TicketCompra() {
     }
 
     public TicketCompra(int idTicketCompra, Funcion funcion, RelacionAsientoFuncion relacion, 
-            Comprador comprador, LocalDate fechaCompra, double monto) {
+            Comprador comprador, LocalDate fechaCompra, double monto, String metodoPago) {
         this.idTicketCompra = idTicketCompra;
         this.funcion = funcion;
         this.relacion = relacion;
         this.comprador = comprador;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
+        this.metodoPago = metodoPago;
     }
     
     public TicketCompra(Funcion funcion, RelacionAsientoFuncion relacion, 
-            Comprador comprador, LocalDate fechaCompra, double monto) {
+            Comprador comprador, LocalDate fechaCompra, double monto,String metodoPago) {
         this.funcion = funcion;
         this.relacion = relacion;
         this.comprador = comprador;
         this.fechaCompra = fechaCompra;
         this.monto = monto;
+        this.metodoPago = metodoPago;
     }
 
-   
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
     public int getIdTicketCompra() {
         return idTicketCompra;
     }

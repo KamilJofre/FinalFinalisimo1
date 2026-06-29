@@ -141,7 +141,7 @@ public class Seleccion extends javax.swing.JFrame {
 
     private void jButtonAbrirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirClienteActionPerformed
         
-            vistaCliente ventana = new vistaCliente();
+            vistaComprarEntrada ventana = new vistaComprarEntrada();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
         

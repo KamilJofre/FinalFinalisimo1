@@ -15,16 +15,14 @@ public class Comprador {
     private String nombre;
     private Date fechaNac;
     private String password;
-    private String medioPago;
     
     public Comprador(){}
 
-    public Comprador(int dni, String nombre, Date fechaNac, String password, String medioPago) {
+    public Comprador(int dni, String nombre, Date fechaNac, String password) {
         this.dni = dni;
         this.nombre = nombre;
         this.fechaNac = fechaNac;
         this.password = password;
-        this.medioPago = medioPago;
     }
 
     public int getDni() {
@@ -59,13 +57,7 @@ public class Comprador {
         this.password = password;
     }
 
-    public String getMedioPago() {
-        return medioPago;
-    }
-
-    public void setMedioPago(String medioPago) {
-        this.medioPago = medioPago;
-    }
+    
 
     @Override
     public String toString() {

@@ -23,14 +23,13 @@ public class CompradorData {
     
     //INSERTAR
     public void insertar(Comprador c){
-        String sql = "INSERT INTO comprador (dni, nombre, fechaNac, password, medioPago) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO comprador (dni, nombre, fechaNac, password) VALUES (?, ?, ?, ?)";
         try{ 
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, c.getDni());
             ps.setString(2, c.getNombre());
             ps.setDate(3, new java.sql.Date(c.getFechaNac().getTime()));
             ps.setString(4, c.getPassword());
-            ps.setString(5, c.getMedioPago());
             
             int filas = ps.executeUpdate();
             if (filas > 0) {
@@ -51,7 +50,7 @@ public class CompradorData {
     //BUSCAR X ID
     public Comprador buscarComprador(int dni) {
         Comprador c = null;
-        String sql ="SELECT dni, nombre, fechaNac, password, medioPago FROM comprador WHERE dni = ?";
+        String sql ="SELECT dni, nombre, fechaNac, password FROM comprador WHERE dni = ?";
         
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -63,8 +62,7 @@ public class CompradorData {
                         rs.getInt("dni"),
                         rs.getString("nombre"),
                         rs.getDate("fechaNac"),
-                        rs.getString("password"),
-                        rs.getString("medioPago")
+                        rs.getString("password")
                         );
             }
             ps.close();
@@ -77,7 +75,7 @@ public class CompradorData {
     //LISTAR TODOS              buscamos compradores de una funcion
     public List<Comprador> listarCompradores(){
         List<Comprador> lista = new ArrayList<>();
-        String sql = "SELECT dni, nombre, fechaNac, password, medioPago FROM comprador";
+        String sql = "SELECT dni, nombre, fechaNac, password FROM comprador";
        
         try{
             PreparedStatement ps= conexion.prepareStatement(sql);
@@ -88,8 +86,7 @@ public class CompradorData {
                         rs.getInt("dni"),
                         rs.getString("nombre"),
                         rs.getDate("fechaNac"),
-                        rs.getString("password"),
-                        rs.getString("medioPago")
+                        rs.getString("password")
                 );
                 lista.add(c);
             }
@@ -108,7 +105,7 @@ public class CompradorData {
      */
     public List<Comprador> listarCompradoresPorFuncion(int idFuncion) {
         List<Comprador> lista = new ArrayList<>();
-        String sql = "SELECT DISTINCT c.dni, c.nombre, c.fechaNac, c.password, c.medioPago " +
+        String sql = "SELECT DISTINCT c.dni, c.nombre, c.fechaNac, c.password " +
                      "FROM comprador c " +
                      "JOIN ticketcompra t ON c.dni = t.idComprador " +
                      "WHERE t.idFuncion = ?";
@@ -121,8 +118,7 @@ public class CompradorData {
                             rs.getInt("dni"),
                             rs.getString("nombre"),
                             rs.getDate("fechaNac"),
-                            rs.getString("password"),
-                            rs.getString("medioPago")
+                            rs.getString("password")
                     );
                     lista.add(c);
                 }
@@ -138,7 +134,7 @@ public class CompradorData {
     
     //ACTUALIZAR
     public void actualizarComprador(Comprador c){
-        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ?, medioPago = ? WHERE dni = ?";
+        String sql = "UPDATE comprador SET nombre = ?, fechaNac = ?, password = ? WHERE dni = ?";
         
         try{
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -146,8 +142,7 @@ public class CompradorData {
             ps.setDate(2, new java.sql.Date(c.getFechaNac().getTime()));
             
             ps.setString(3, c.getPassword());
-            ps.setString(4, c.getMedioPago());
-            ps.setInt(5, c.getDni());
+            ps.setInt(4, c.getDni());
 
             int filas = ps.executeUpdate();
             if (filas > 0) {

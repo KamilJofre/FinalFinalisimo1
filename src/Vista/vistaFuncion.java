@@ -569,12 +569,18 @@ public class vistaFuncion extends javax.swing.JFrame {
         Funcion f = new Funcion (pelicula , sala,idioma , es3d, esSubtitulada,fecha, horaInicio,horaFin, precio);
         
         if(pd.solapamiento(sala.getNroSala(),fecha,horaInicio, horaFin)){
-            JOptionPane.showMessageDialog(this,"Ya existe una funcion en el horario seleccionado.");
+            JOptionPane.showMessageDialog(this,"❌ Ya existe una funcion en el horario seleccionado ❌");
             return;
         }
         
-        if(!PeliculaData.checkCartelera(pelicula.getIdPelicula())){
-            JOptionPane.showMessageDialog(this, "Pelicula no disponible para funcion.");
+        if(PeliculaData.checkCartelera(pelicula.getIdPelicula())){
+            JOptionPane.showMessageDialog(this, "❌ Pelicula no disponible para funcion ❌");
+            return;
+        }
+        
+        LocalDate fechaActual = LocalDate.now();
+        if(fecha.isBefore(fechaActual) || fecha.equals(fechaActual)){
+            JOptionPane.showMessageDialog(this, "❌ La fecha de la funcion no puede ser anterior al dia de hoy ❌");
             return;
         }
         
@@ -585,7 +591,7 @@ public class vistaFuncion extends javax.swing.JFrame {
 
             cargarTablaFunciones();
         } catch(Exception e){
-            JOptionPane.showMessageDialog(this, "❌ Funcion al agregar pelicula ❌" + e.getMessage());
+            JOptionPane.showMessageDialog(this, "❌ Error al agregar pelicula ❌" + e.getMessage());
         }
     cargarTablaFunciones();
     }//GEN-LAST:event_jButtonEnviarFuncionActionPerformed
