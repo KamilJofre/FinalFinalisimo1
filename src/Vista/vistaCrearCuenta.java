@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vista;
-import Modelo.Pelicula;
-import Persistencia.Conexion;
-import Persistencia.PeliculaData;
+import Modelo.*;
+import Persistencia.*;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -23,9 +22,9 @@ import java.util.Date;
  *
  * @author kamil
  */
-public final class vistaComprador extends javax.swing.JFrame {
+public final class vistaCrearCuenta extends javax.swing.JFrame {
     private JSpinner horaInicio;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaComprador.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaCrearCuenta.class.getName());
 
 Connection con = Conexion.getConexion();
 CompradorData cd = new CompradorData(con);
@@ -57,46 +56,18 @@ CompradorData cd = new CompradorData(con);
             }   
         });
     }
-    public vistaComprador() {
+    public vistaCrearCuenta() {
         initComponents();
-        placeHolder(jTextPeliculaTitulo, "TITULO");
-        placeHolder(jTextPeliculaDirector, "DIRECTOR");
-        placeHolder(jTextOrigen, "ORIGEN");
-        JTextField jTextPeliculaGenero = null;
-        placeHolder(jTextPeliculaGenero, "GENERO");
-        placeHolder(jTextPeliculaDuracion, "DURACION  (en minutos)");
-        JTextField jTextIdEliminarPelicula = null;
-        placeHolder(jTextIdEliminarPelicula, "ID PELICULA A ELIMINAR");
-        JTextField jTextIdModificarPelicula = null;
-        placeHolder(jTextIdModificarPelicula, "ID PELICULA A MODIFICAR");
-        PeliculaData PeliculaData = new PeliculaData(Conexion.getConexion());
-        cargarTablaPeliculas();
+        placeHolder(jTextNombre, "Nombre y Apellido");
+        placeHolder(jTextConfirmarContra, "*****");
+        placeHolder(jTextMail, "ejemplo@algo.com");
+        placeHolder(jTextContra, "*****");
+        placeHolder(jTextDni,"012345678");
+        placeHolder(jTextDate, "Fecha de nacimiento (yyyy-MM-dd)");
+        
     }
 
-    
-    void cargarTablaPeliculas() {
-    DefaultTableModel modelo = new DefaultTableModel(
-    new Object[]{"Id Película","Titulo","Duracion", "Director", "Origen", "Genero", "EnCartelera"}, 0
-        );
-        jTableListaPeliculas.setModel(modelo);
-
-        for (Pelicula p : PeliculaData.listarPeliculas()) {
-            int minutos=p.getDuracion();
-            int horas = p.getDuracion()/60;
-            int restante = p.getDuracion()%60;
-            modelo.addRow(new Object[]{
-                p.getIdPelicula(),
-                p.getTitulo(),
-                horas+"h"+restante+"m",
-                p.getDirector(),
-                p.getOrigen(),
-                p.getGenero(),
-                p.isEnCartelera()
-            });
-        }
-    }
-    
-   
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,53 +78,53 @@ CompradorData cd = new CompradorData(con);
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jTextPeliculaTitulo = new javax.swing.JTextField();
-        jTextPeliculaDirector = new javax.swing.JTextField();
-        jTextOrigen = new javax.swing.JTextField();
-        jTextPeliculaDuracion = new javax.swing.JTextField();
-        jTextFecha = new javax.swing.JTextField();
+        jTextNombre = new javax.swing.JTextField();
+        jTextConfirmarContra = new javax.swing.JTextField();
+        jTextMail = new javax.swing.JTextField();
+        jTextContra = new javax.swing.JTextField();
+        jTextDate = new javax.swing.JTextField();
         jTextDni = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButtonVolver1 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
         jButtonVolver = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         jButtonEnviarPelicula = new javax.swing.JButton();
+        jButtonEnviarPelicula1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(100, 149, 237));
 
-        jTextPeliculaTitulo.setText("Nombre y Apellido");
-        jTextPeliculaTitulo.addActionListener(new java.awt.event.ActionListener() {
+        jTextNombre.setText("Nombre y Apellido");
+        jTextNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextPeliculaTituloActionPerformed(evt);
+                jTextNombre(evt);
             }
         });
 
-        jTextPeliculaDirector.setText("Confirmar Contraseña");
-        jTextPeliculaDirector.addActionListener(new java.awt.event.ActionListener() {
+        jTextConfirmarContra.setText("Confirmar Contraseña");
+        jTextConfirmarContra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextPeliculaDirectorActionPerformed(evt);
+                jTextConfirmarContraActionPerformed(evt);
             }
         });
 
-        jTextOrigen.setText("mail");
-        jTextOrigen.addActionListener(new java.awt.event.ActionListener() {
+        jTextMail.setText("mail");
+        jTextMail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextOrigenActionPerformed(evt);
+                jTextMailActionPerformed(evt);
             }
         });
 
-        jTextPeliculaDuracion.setText("Contraseña");
-        jTextPeliculaDuracion.addActionListener(new java.awt.event.ActionListener() {
+        jTextContra.setText("Contraseña");
+        jTextContra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextPeliculaDuracionActionPerformed(evt);
+                jTextContraActionPerformed(evt);
             }
         });
 
-        jTextFecha.setText("Fecha de nacimiento (yyyy-MM-dd)");
+        jTextDate.setText("Fecha de nacimiento (yyyy-MM-dd)");
 
         jTextDni.setText("DNI");
 
@@ -164,11 +135,11 @@ CompradorData cd = new CompradorData(con);
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jTextPeliculaDirector, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .addComponent(jTextPeliculaTitulo)
-                    .addComponent(jTextOrigen)
-                    .addComponent(jTextPeliculaDuracion)
+                    .addComponent(jTextDate, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                    .addComponent(jTextConfirmarContra)
+                    .addComponent(jTextNombre)
+                    .addComponent(jTextMail)
+                    .addComponent(jTextContra)
                     .addComponent(jTextDni))
                 .addContainerGap())
         );
@@ -176,18 +147,18 @@ CompradorData cd = new CompradorData(con);
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextPeliculaTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextPeliculaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextPeliculaDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextConfirmarContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(100, 149, 237));
@@ -199,9 +170,9 @@ CompradorData cd = new CompradorData(con);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel2)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,10 +184,10 @@ CompradorData cd = new CompradorData(con);
 
         jPanel4.setBackground(new java.awt.Color(100, 149, 237));
 
-        jButtonVolver1.setText("VOLVER");
-        jButtonVolver1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonVolver.setText("VOLVER");
+        jButtonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVolver1ActionPerformed(evt);
+                jButtonVolverActionPerformed(evt);
             }
         });
 
@@ -226,25 +197,18 @@ CompradorData cd = new CompradorData(con);
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonVolver1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonVolver1)
+                .addComponent(jButtonVolver)
                 .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(100, 149, 237));
-
-        jButtonVolver.setText("VACIAR");
-        jButtonVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVolverActionPerformed(evt);
-            }
-        });
 
         jButtonEnviarPelicula.setText("ENVIAR");
         jButtonEnviarPelicula.addActionListener(new java.awt.event.ActionListener() {
@@ -253,15 +217,22 @@ CompradorData cd = new CompradorData(con);
             }
         });
 
+        jButtonEnviarPelicula1.setText("VACIAR");
+        jButtonEnviarPelicula1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnviarPelicula1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonEnviarPelicula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonEnviarPelicula, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                    .addComponent(jButtonEnviarPelicula1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -270,7 +241,7 @@ CompradorData cd = new CompradorData(con);
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonEnviarPelicula)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonVolver)
+                .addComponent(jButtonEnviarPelicula1)
                 .addContainerGap())
         );
 
@@ -294,7 +265,7 @@ CompradorData cd = new CompradorData(con);
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,16 +280,16 @@ CompradorData cd = new CompradorData(con);
             try {
 
         int dni = Integer.parseInt(jTextDni.getText());
-        String nombre = jTextPeliculaTitulo.getText();
-        String password = jTextPeliculaDuracion.getText();
-        String confirmar = jTextPeliculaDirector.getText();
+        String nombre = jTextNombre.getText();
+        String password = jTextContra.getText();
+        String confirmar = jTextConfirmarContra.getText();
 
         if (!password.equals(confirmar)) {
-            JOptionPane.showMessageDialog(this, "las contraseñas no coinciden");
+            JOptionPane.showMessageDialog(this, "❌ Las contraseñas no coinciden ❌");
             return;
         }
 
-        Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(jTextFecha.getText());
+        Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(jTextDate.getText());
 
         Comprador c = new Comprador(dni, nombre, fecha, password);
 
@@ -327,46 +298,51 @@ CompradorData cd = new CompradorData(con);
         JOptionPane.showMessageDialog(this, "cuenta creada");
 
         jTextDni.setText("");
-        jTextPeliculaTitulo.setText("");
-        jTextPeliculaDuracion.setText("");
-        jTextPeliculaDirector.setText("");
-        jTextOrigen.setText("");
-        jTextFecha.setText("");
+        jTextNombre.setText("");
+        jTextContra.setText("");
+        jTextConfirmarContra.setText("");
+        jTextMail.setText("");
+        jTextDate.setText("");
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "error");
-    }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "error");
+        }
 
         
     }//GEN-LAST:event_jButtonEnviarPeliculaActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
         
-            vistaAdmin ventana = new vistaAdmin();
+            vistaCliente ventana = new vistaCliente();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
         
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
-    private void jTextOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextOrigenActionPerformed
+    private void jTextMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextMailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextOrigenActionPerformed
+    }//GEN-LAST:event_jTextMailActionPerformed
 
-    private void jTextPeliculaDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPeliculaDirectorActionPerformed
+    private void jTextConfirmarContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextConfirmarContraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextPeliculaDirectorActionPerformed
+    }//GEN-LAST:event_jTextConfirmarContraActionPerformed
 
-    private void jTextPeliculaTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPeliculaTituloActionPerformed
+    private void jTextNombre(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNombre
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextPeliculaTituloActionPerformed
+    }//GEN-LAST:event_jTextNombre
 
-    private void jTextPeliculaDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPeliculaDuracionActionPerformed
+    private void jTextContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextContraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextPeliculaDuracionActionPerformed
+    }//GEN-LAST:event_jTextContraActionPerformed
 
-    private void jButtonVolver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolver1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonVolver1ActionPerformed
+    private void jButtonEnviarPelicula1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarPelicula1ActionPerformed
+        placeHolder(jTextNombre, "Nombre y Apellido");
+        placeHolder(jTextConfirmarContra, "*****");
+        placeHolder(jTextMail, "ejemplo@algo.com");
+        placeHolder(jTextContra, "*****");
+        placeHolder(jTextDni,"012345678");
+        placeHolder(jTextDate, "Fecha de nacimiento (yyyy-MM-dd)");
+    }//GEN-LAST:event_jButtonEnviarPelicula1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -390,23 +366,23 @@ CompradorData cd = new CompradorData(con);
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new vistaComprador().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new vistaCrearCuenta().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnviarPelicula;
+    private javax.swing.JButton jButtonEnviarPelicula1;
     private javax.swing.JButton jButtonVolver;
-    private javax.swing.JButton jButtonVolver1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField jTextConfirmarContra;
+    private javax.swing.JTextField jTextContra;
+    private javax.swing.JTextField jTextDate;
     private javax.swing.JTextField jTextDni;
-    private javax.swing.JTextField jTextFecha;
-    private javax.swing.JTextField jTextOrigen;
-    private javax.swing.JTextField jTextPeliculaDirector;
-    private javax.swing.JTextField jTextPeliculaDuracion;
-    private javax.swing.JTextField jTextPeliculaTitulo;
+    private javax.swing.JTextField jTextMail;
+    private javax.swing.JTextField jTextNombre;
     // End of variables declaration//GEN-END:variables
 }

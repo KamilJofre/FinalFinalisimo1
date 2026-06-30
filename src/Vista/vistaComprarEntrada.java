@@ -406,7 +406,7 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
 
     private void jButtonClienteVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClienteVolverActionPerformed
        
-            Seleccion ventana = new Seleccion();
+            vistaCliente ventana = new vistaCliente();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
     }//GEN-LAST:event_jButtonClienteVolverActionPerformed

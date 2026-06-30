@@ -141,7 +141,7 @@ public class Seleccion extends javax.swing.JFrame {
 
     private void jButtonAbrirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirClienteActionPerformed
         
-            vistaComprarEntrada ventana = new vistaComprarEntrada();
+            vistaCliente ventana = new vistaCliente();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
         
@@ -155,7 +155,7 @@ public class Seleccion extends javax.swing.JFrame {
 
     private void jButtonAbrirCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirCarteleraActionPerformed
         
-            vistaCartelera ventana = new vistaCartelera();
+            vistaCliente ventana = new vistaCliente();
             ventana.setVisible(true);
             this.dispose(); // Cierra la ventana actual
         
