@@ -73,6 +73,23 @@ public class SalaData {
         return s;
     }
     
+    public boolean buscarPorNroSalaBool(int nroSala){
+        String sql="SELECT 1 FROM sala WHERE NroSala=?";
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+        
+            ps.setInt(1, nroSala);
+            ResultSet rs = ps.executeQuery();
+            
+            return rs.next();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar sala: " + ex.getMessage());
+            return true;
+        }
+    }
+    
     //LISTAR TODOS
     public List<Sala> listarSalas(){
         List<Sala> lista = new ArrayList<>();
@@ -103,17 +120,13 @@ public class SalaData {
     
     
     //ACTUALIZAR
-    public void actualizarSala(Sala s){
-        String sql ="UPDATE sala SET apta3D=?, capacidad=?, estado=? WHERE NroSala=?";
+    public void actualizarSala(int nroSala){
+        String sql ="UPDATE sala SET estado = NOT estado WHERE NroSala=?";
         
         try{
             PreparedStatement ps = conexion.prepareStatement(sql);
             //devuelta
-            ps.setBoolean(1, s.isApta3D());
-            ps.setInt(2, s.getCapacidad());
-            ps.setBoolean(3, s.isEstado());
-            ps.setInt(4, s.getNroSala());
-            
+            ps.setInt(1, nroSala);
             ps.executeUpdate();
             
              System.out.println("Sala actualizada.");
