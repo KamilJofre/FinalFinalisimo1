@@ -71,6 +71,23 @@ public class CompradorData {
         }
         return c;
     }
+    
+    public boolean contraseniaDni(int dni, String contra){
+        
+        String sql="SELECT 1 FROM comprador WHERE dni=? AND password=?";
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ps.setInt(1, dni);
+            ps.setString(2, contra);
+            
+            try(ResultSet rs = ps.executeQuery()){
+                return rs.next();
+            }
+            
+        } catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
    
     //LISTAR TODOS              buscamos compradores de una funcion
     public List<Comprador> listarCompradores(){
