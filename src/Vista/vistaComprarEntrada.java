@@ -22,21 +22,13 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
     
     
     Connection con = (Connection) Conexion.getConexion();
-    private PeliculaData PeliculaData;
-    PeliculaData pdPelicula = new PeliculaData(con);
+    private PeliculaData PeliculaData= new PeliculaData(con);
+    private FuncionData FuncionData= new FuncionData(con);
+    private  RelacionData RelacionData= new RelacionData(con);
+    private  CompradorData CompradorData= new CompradorData(con);
+    private TicketCompraData TicketCompraData= new TicketCompraData(con);
     
-    private FuncionData FuncionData;
-    FuncionData pdFuncion = new FuncionData(con);
     
-    private  RelacionData RelacionData;
-    RelacionData pdRelacion = new RelacionData(con);
-    
-    private  CompradorData CompradorData;
-    CompradorData pdComprador = new CompradorData(con);
-    
-    public void vistaComprarEntrada(){
-        initComponents();
-    }
     
     public void placeHolder(JTextField txt, String texto){
         Color colorPlaceholder = new Color(0,0,0,120);
@@ -69,6 +61,9 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
 
     public void cargarPeliculas(){
         jComboBoxListaPeliculas.removeAllItems();
+        
+        if(PeliculaData==null) return;
+        
         for(Pelicula p : PeliculaData.listarPeliculas()){
             jComboBoxListaPeliculas.addItem(p);
         }
@@ -91,7 +86,7 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
         Funcion funcionSeleccionada = (Funcion) jComboBoxListaFunciones.getSelectedItem();
         
         if(funcionSeleccionada!=null){
-            for(RelacionAsientoFuncion raf : pdRelacion.listarAsientosDeFuncion(funcionSeleccionada.getIdFuncion())){
+            for(RelacionAsientoFuncion raf : RelacionData.listarAsientosDeFuncion(funcionSeleccionada.getIdFuncion())){
                 if(raf.isOcupado()==false){jComboBoxAsientos.addItem(raf);}
             }
         } else {
@@ -104,9 +99,17 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
         initComponents();
         placeHolder(jTextDni, "DNI");
         placeHolder(jPasswordFieldContraseña, "CONTRASEÑA");
+        
+        con = Conexion.getConexion();
+        
         PeliculaData = new PeliculaData(con);
+        CompradorData = new CompradorData(con);
+        FuncionData = new FuncionData(con);
+        TicketCompraData = new TicketCompraData(con);
+        RelacionData = new RelacionData(con);
         
         cargarPeliculas();
+        
         jComboBoxListaPeliculas.addActionListener(e -> cargarFunciones());
         jComboBoxListaFunciones.addActionListener (e-> cargarAsientos());
     }
@@ -384,45 +387,74 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
 
     private void jButtonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComprarActionPerformed
         // TODO add your handling code here:
-        if(jComboBoxListaPeliculas.getSelectedItem()==null){ 
-            JOptionPane.showMessageDialog(this, "❌ Seleccione una pelicula ❌");
-            return;
-        }
-        if(jComboBoxListaFunciones.getSelectedItem()==null){ 
-            JOptionPane.showMessageDialog(this, "❌ Seleccione una función ❌");
-            return;
-        }
-        if(jComboBoxAsientos.getSelectedItem()==null){ 
-            JOptionPane.showMessageDialog(this, "❌ Seleccione un asiento ❌");
-            return;
-        }
-        if(!pdComprador.contraseniaDni(Integer.parseInt(jTextDni.getText()), jPasswordFieldContraseña.getText())){
-            JOptionPane.showMessageDialog(this, "❌ La contraseña es incorrecta ❌");
-            return;
-        }
-        if(jComboBoxMetodoPago.getSelectedItem()==null){ 
-            JOptionPane.showMessageDialog(this, "❌ Seleccione un metodo de pago ❌");
-            return;
-        }
-        
         Pelicula pelicula= (Pelicula) jComboBoxListaPeliculas.getSelectedItem();
         Funcion funcion = (Funcion)jComboBoxListaFunciones.getSelectedItem();
         RelacionAsientoFuncion asiento = (RelacionAsientoFuncion)jComboBoxAsientos.getSelectedItem();
         
-        int dni= Integer.parseInt(jTextDni.getText()); //debe coincidir con la contraseña
-        Comprador c = pdComprador.buscarComprador(dni);
-        String nombre = c.getNombre(); //se obtiene relacionando el DNI de la base de datos
         
         LocalDate fechaYa = LocalDate.now();
-        
         String contraseña = jPasswordFieldContraseña.getText();
-        
-        
         String metodoPago =(String) jComboBoxMetodoPago.getSelectedItem();
+        
+        
+        if(pelicula==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione una pelicula ❌");
+            return;
+        }
+        if(funcion==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione una función ❌");
+            return;
+        }
         double monto = funcion.getPrecio();
         
-        TicketCompra t = new TicketCompra(funcion, asiento,c,fechaYa, monto,metodoPago);
         
+        if(asiento==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione un asiento ❌");
+            return;
+        }
+        
+        
+        if(metodoPago==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione un metodo de pago ❌");
+            return;
+        }
+        
+        String textoDni= jTextDni.getText().trim();
+        if(textoDni.isEmpty() || textoDni.equals("DNI")){ 
+            JOptionPane.showMessageDialog(this, "❌ Ingrese un DNI ❌");
+            return;
+        }
+        
+        int dni= Integer.parseInt(jTextDni.getText()); //debe coincidir con la contraseña
+        Comprador c = CompradorData.buscarComprador(dni);
+        
+        if(c==null){
+            JOptionPane.showMessageDialog(this, "❌ No existe un usuario con ese DNI ❌");
+            return;
+        }
+        
+        String nombre = c.getNombre(); //se obtiene relacionando el DNI de la base de datos
+        
+        if(!CompradorData.contraseniaDni(dni, contraseña)){
+            JOptionPane.showMessageDialog(this, "❌ La contraseña es incorrecta ❌");
+            return;
+        }
+        
+        
+        TicketCompra t = new TicketCompra(funcion, 
+                                          asiento,
+                                          c,
+                                          fechaYa, 
+                                          monto,
+                                          metodoPago);
+
+        try{
+            TicketCompraData.guardarTicket(t);
+            JOptionPane.showMessageDialog(this, "✔ Ahora es el orgulloso dueño de una entrada ✔");
+
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, "❌ Error al vender entrada ❌" + e.getMessage());
+        }
     }//GEN-LAST:event_jButtonComprarActionPerformed
 
     private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed

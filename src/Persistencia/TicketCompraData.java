@@ -19,8 +19,8 @@ public class TicketCompraData {
     //Insertar Ticket
     public void guardarTicket(TicketCompra t) {
 
-        String sql = "INSERT INTO ticketcompra (idFuncion, idRelacion, idComprador, fechaCompra, monto) "
-                   + "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ticketcompra (idFuncion, idRelacion, idComprador, fechaCompra, monto, medioPago) "
+                   + "VALUES (?, ?, ?, ?, ?,?)";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -30,6 +30,7 @@ public class TicketCompraData {
             ps.setInt(3, t.getComprador().getDni());
             ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
+            ps.setString(6, t.getMetodoPago());
 
             ps.executeUpdate();
 
@@ -78,7 +79,7 @@ public class TicketCompraData {
                         c,
                         rs.getDate("fechaCompra").toLocalDate(),
                         rs.getDouble("monto"),
-                        rs.getString("metodoPago")
+                        rs.getString("medioPago")
                 );
             }
 
@@ -126,6 +127,7 @@ public class TicketCompraData {
 
                 t.setFechaCompra(rs.getDate("fechaCompra").toLocalDate());
                 t.setMonto(rs.getDouble("monto"));
+                t.setMetodoPago(rs.getString("medioPago"));
 
                 lista.add(t);
             }
@@ -142,7 +144,8 @@ public class TicketCompraData {
     //Actualizar tickets
     public void actualizarTicketCompra(TicketCompra t) {
 
-        String sql = "UPDATE ticketcompra SET idComprador=?, idAsiento=?, idFuncion=?, fechaCompra=?, monto=? "
+        String sql = "UPDATE ticketcompra SET idComprador=?, idAsiento=?, "
+                   + "idFuncion=?, fechaCompra=?, monto=?, medioPago=?"
                    + "WHERE idTicketCompra=?";
 
         try {
@@ -153,7 +156,7 @@ public class TicketCompraData {
             ps.setInt(3, t.getFuncion().getIdFuncion());
             ps.setDate(4, java.sql.Date.valueOf(t.getFechaCompra()));
             ps.setDouble(5, t.getMonto());
-            ps.setInt(6, t.getIdTicketCompra());
+            ps.setString(6, t.getMetodoPago());
 
             ps.executeUpdate();
             ps.close();
