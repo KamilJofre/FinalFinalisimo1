@@ -295,14 +295,14 @@ CompradorData cd = new CompradorData(con);
 
         cd.insertar(c);
 
-        JOptionPane.showMessageDialog(this, "cuenta creada");
+        JOptionPane.showMessageDialog(this, "✔ Cuenta creada ✔");
 
-        jTextDni.setText("");
-        jTextNombre.setText("");
-        jTextContra.setText("");
-        jTextConfirmarContra.setText("");
-        jTextMail.setText("");
-        jTextDate.setText("");
+        placeHolder(jTextNombre, "Nombre y Apellido");
+        placeHolder(jTextConfirmarContra, "*****");
+        placeHolder(jTextMail, "ejemplo@algo.com");
+        placeHolder(jTextContra, "*****");
+        placeHolder(jTextDni,"012345678");
+        placeHolder(jTextDate, "Fecha de nacimiento (yyyy-MM-dd)");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "error");

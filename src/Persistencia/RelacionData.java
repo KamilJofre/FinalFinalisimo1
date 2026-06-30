@@ -128,7 +128,7 @@ public class RelacionData {
         PreparedStatement ps =null;
         String sql="""
                    INSERT INTO relacionasientofuncion (idFuncion, idAsiento, ocupado)
-                   SELECT f.idFuncion, a.idAsiento, null
+                   SELECT f.idFuncion, a.idAsiento, false
                    FROM funcion f
                    JOIN asiento a ON f.NroSala=a.NroSala
                    WHERE f.idFuncion=?

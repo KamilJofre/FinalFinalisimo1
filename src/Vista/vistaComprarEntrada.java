@@ -19,6 +19,8 @@ import javax.swing.JTextField;
  * @author kamil
  */
 public class vistaComprarEntrada extends javax.swing.JFrame {
+    
+    
     Connection con = (Connection) Conexion.getConexion();
     private PeliculaData PeliculaData;
     PeliculaData pdPelicula = new PeliculaData(con);
@@ -31,6 +33,10 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
     
     private  CompradorData CompradorData;
     CompradorData pdComprador = new CompradorData(con);
+    
+    public void vistaComprarEntrada(){
+        initComponents();
+    }
     
     public void placeHolder(JTextField txt, String texto){
         Color colorPlaceholder = new Color(0,0,0,120);
@@ -378,21 +384,40 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
 
     private void jButtonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComprarActionPerformed
         // TODO add your handling code here:
+        if(jComboBoxListaPeliculas.getSelectedItem()==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione una pelicula ❌");
+            return;
+        }
+        if(jComboBoxListaFunciones.getSelectedItem()==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione una función ❌");
+            return;
+        }
+        if(jComboBoxAsientos.getSelectedItem()==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione un asiento ❌");
+            return;
+        }
+        if(!pdComprador.contraseniaDni(Integer.parseInt(jTextDni.getText()), jPasswordFieldContraseña.getText())){
+            JOptionPane.showMessageDialog(this, "❌ La contraseña es incorrecta ❌");
+            return;
+        }
+        if(jComboBoxMetodoPago.getSelectedItem()==null){ 
+            JOptionPane.showMessageDialog(this, "❌ Seleccione un metodo de pago ❌");
+            return;
+        }
+        
         Pelicula pelicula= (Pelicula) jComboBoxListaPeliculas.getSelectedItem();
         Funcion funcion = (Funcion)jComboBoxListaFunciones.getSelectedItem();
         RelacionAsientoFuncion asiento = (RelacionAsientoFuncion)jComboBoxAsientos.getSelectedItem();
         
         int dni= Integer.parseInt(jTextDni.getText()); //debe coincidir con la contraseña
-        Comprador c= CompradorData.buscarComprador(dni);
+        Comprador c = pdComprador.buscarComprador(dni);
         String nombre = c.getNombre(); //se obtiene relacionando el DNI de la base de datos
         
         LocalDate fechaYa = LocalDate.now();
         
         String contraseña = jPasswordFieldContraseña.getText();
-        if(CompradorData.contraseniaDni(dni, contraseña)){
-            JOptionPane.showMessageDialog(this, "❌ La contraseña es incorrecta ❌");
-            return;
-        }
+        
+        
         String metodoPago =(String) jComboBoxMetodoPago.getSelectedItem();
         double monto = funcion.getPrecio();
         

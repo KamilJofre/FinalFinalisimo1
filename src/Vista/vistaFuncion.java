@@ -512,13 +512,13 @@ public class vistaFuncion extends javax.swing.JFrame {
         // SALA
         String textoSala = jTextNumeroSala.getText().trim();
         if (textoSala.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un número de sala.");
+            JOptionPane.showMessageDialog(this, "❌ Ingrese un número de sala ❌");
             return;
         } 
         int nroSala= Integer.parseInt(textoSala);
         Sala sala = SalaData.buscarSala(nroSala);
         if(sala == null){
-            JOptionPane.showMessageDialog(this, "La sala no existe.");
+            JOptionPane.showMessageDialog(this, "❌ La sala no existe ❌");
             return;
         }
         
@@ -526,14 +526,14 @@ public class vistaFuncion extends javax.swing.JFrame {
         String tituloPelicula = jTextFuncionPelicula.getText();
         Pelicula pelicula = PeliculaData.buscarPelicula(tituloPelicula);
         if (pelicula == null) {
-            JOptionPane.showMessageDialog(this, "La pelicula no existe");
+            JOptionPane.showMessageDialog(this, "❌ La pelicula no existe ❌");
             return;
         }
         
         //FECHA
         Date utilDate = jDateFechaFuncion.getDate(); //BUSCAR FECHA
         if(utilDate==null){
-            JOptionPane.showMessageDialog(this, "Seleccione una fecha");
+            JOptionPane.showMessageDialog(this, "❌ Seleccione una fecha ❌");
             return;
         }
         LocalDate fecha = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();//SETEAR FECHA
@@ -541,7 +541,7 @@ public class vistaFuncion extends javax.swing.JFrame {
         //HORA
         Date utilTime = (Date) jSpinnerHoraInicio.getValue(); //BUSCA HORA
         if(utilTime==null){
-            JOptionPane.showMessageDialog(this, "Seleccione un horario");
+            JOptionPane.showMessageDialog(this, "❌ Seleccione un horario ❌");
             return;
         }
         LocalTime horaInicio= utilTime.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();//SETEA HORA
@@ -587,7 +587,7 @@ public class vistaFuncion extends javax.swing.JFrame {
         try{
             pd.guardarFuncion(f);
             pd1.crearRelacionAsientoFuncion(f.getIdFuncion());
-            JOptionPane.showMessageDialog(this, "✅ Funcion agregada con extio ✅");
+            JOptionPane.showMessageDialog(this, "✔ Funcion agregada con extio ✔");
 
             cargarTablaFunciones();
         } catch(Exception e){
