@@ -61,6 +61,7 @@ public class RelacionData {
                     a.setNumero(rs.getInt("numero"));
                     
                     raf.setAsiento(a);
+                    raf.setOcupado(rs.getBoolean("ocupado"));
                     
                     lista.add(raf);
                 }
@@ -160,7 +161,7 @@ public class RelacionData {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getBoolean("ocupado");
+                    return rs.getInt("ocupado")==1;
                 }
             }
 
@@ -171,26 +172,19 @@ public class RelacionData {
         return false; // si no existe lo toma como libre
     }
     
-    public boolean ocuparAsiento(int idFuncion, int idAsiento){
+    public boolean ocuparAsiento(int idRelacion){
 
     // Primero verificamos estado
-    if (estadoAsiento(idFuncion, idAsiento)) {
-        System.out.println("El asiento ya está ocupado.");
-        return false;
-        }
+    
         String sql = """
                      UPDATE relacionasientofuncion
-                     SET ocupado = true
-                     WHERE idFuncion = ? AND idAsiento = ?
+                     SET ocupado = 1
+                     WHERE idRelacion = ? AND ocupado = 0
                      """;
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-            ps.setInt(1, idFuncion);
-            ps.setInt(2, idAsiento);
-            int filas = ps.executeUpdate();
-            if (filas > 0) {
-                System.out.println("Asiento ocupado correctamente.");
-                return true;
-            }
+            ps.setInt(1, idRelacion);
+            return ps.executeUpdate()>0;
+            
         } catch (SQLException ex) {
             System.out.println("Error al ocupar asiento " + ex.getMessage());
         }

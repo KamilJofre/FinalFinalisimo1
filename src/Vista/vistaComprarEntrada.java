@@ -414,7 +414,7 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
         }
         
         
-        if(metodoPago==null){ 
+        if(metodoPago==null || metodoPago.equals("SELECCIONE")){ 
             JOptionPane.showMessageDialog(this, "❌ Seleccione un metodo de pago ❌");
             return;
         }
@@ -451,7 +451,10 @@ public class vistaComprarEntrada extends javax.swing.JFrame {
         try{
             TicketCompraData.guardarTicket(t);
             JOptionPane.showMessageDialog(this, "✔ Ahora es el orgulloso dueño de una entrada ✔");
-
+            RelacionData.ocuparAsiento(asiento.getIdRelacion());
+            
+            cargarFunciones();
+            cargarAsientos();
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, "❌ Error al vender entrada ❌" + e.getMessage());
         }
