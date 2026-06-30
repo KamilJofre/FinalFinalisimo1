@@ -421,6 +421,13 @@ public class vistaPelicula extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al agregar pelicula ❌" + e.getMessage());
         }
         
+        placeHolder(jTextPeliculaTitulo, "TITULO");
+        placeHolder(jTextPeliculaDirector, "DIRECTOR");
+        placeHolder(jTextOrigen, "ORIGEN");
+        placeHolder(jTextPeliculaGenero, "GENERO");
+        placeHolder(jTextPeliculaDuracion, "DURACION  (en minutos)");
+        placeHolder(jTextIdEliminarPelicula, "ID PELICULA A ELIMINAR");
+        placeHolder(jTextIdModificarPelicula, "ID PELICULA A MODIFICAR");
         cargarTablaPeliculas();
     }//GEN-LAST:event_jButtonEnviarPeliculaActionPerformed
 

@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Comprador;
 import Persistencia.CompradorData;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -279,7 +280,15 @@ CompradorData cd = new CompradorData(con);
         // TODO add your handling code here:
             try {
 
+        String dniTexto = jTextDni.getText();
+        
+        if(dniTexto.length()<=8){
+            JOptionPane.showMessageDialog(this, "❌ DNI invalido ❌");
+            return;
+        }
+        
         int dni = Integer.parseInt(jTextDni.getText());
+            
         String nombre = jTextNombre.getText();
         String password = jTextContra.getText();
         String confirmar = jTextConfirmarContra.getText();
@@ -289,8 +298,18 @@ CompradorData cd = new CompradorData(con);
             return;
         }
 
-        Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(jTextDate.getText());
-
+        Date fecha = null;
+        
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+            sdf.setLenient(false);
+            
+            fecha = sdf.parse(jTextDate.getText());
+        } catch(ParseException e){
+            JOptionPane.showMessageDialog(this, "❌ Formato de fecha incorrecto, use (YYY-MM-DD) ❌");
+            return;
+        }
+        
         Comprador c = new Comprador(dni, nombre, fecha, password);
 
         cd.insertar(c);
