@@ -14,18 +14,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import Modelo.Comprador;
+import Persistencia.CompradorData;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
  * @author kamil
  */
-public class vistaComprador extends javax.swing.JFrame {
+public final class vistaComprador extends javax.swing.JFrame {
     private JSpinner horaInicio;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vistaComprador.class.getName());
 
-    Connection con = Conexion.getConexion();
-    private PeliculaData PeliculaData;
-    PeliculaData pd = new PeliculaData(con);
+Connection con = Conexion.getConexion();
+CompradorData cd = new CompradorData(con);
     
     
     
@@ -59,11 +62,14 @@ public class vistaComprador extends javax.swing.JFrame {
         placeHolder(jTextPeliculaTitulo, "TITULO");
         placeHolder(jTextPeliculaDirector, "DIRECTOR");
         placeHolder(jTextOrigen, "ORIGEN");
+        JTextField jTextPeliculaGenero = null;
         placeHolder(jTextPeliculaGenero, "GENERO");
         placeHolder(jTextPeliculaDuracion, "DURACION  (en minutos)");
+        JTextField jTextIdEliminarPelicula = null;
         placeHolder(jTextIdEliminarPelicula, "ID PELICULA A ELIMINAR");
+        JTextField jTextIdModificarPelicula = null;
         placeHolder(jTextIdModificarPelicula, "ID PELICULA A MODIFICAR");
-        PeliculaData  = new PeliculaData(Conexion.getConexion());
+        PeliculaData PeliculaData = new PeliculaData(Conexion.getConexion());
         cargarTablaPeliculas();
     }
 
@@ -105,6 +111,8 @@ public class vistaComprador extends javax.swing.JFrame {
         jTextPeliculaDirector = new javax.swing.JTextField();
         jTextOrigen = new javax.swing.JTextField();
         jTextPeliculaDuracion = new javax.swing.JTextField();
+        jTextFecha = new javax.swing.JTextField();
+        jTextDni = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -145,6 +153,10 @@ public class vistaComprador extends javax.swing.JFrame {
             }
         });
 
+        jTextFecha.setText("Fecha de nacimiento (yyyy-MM-dd)");
+
+        jTextDni.setText("DNI");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -152,10 +164,12 @@ public class vistaComprador extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextPeliculaDirector)
+                    .addComponent(jTextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jTextPeliculaDirector, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                     .addComponent(jTextPeliculaTitulo)
                     .addComponent(jTextOrigen)
-                    .addComponent(jTextPeliculaDuracion))
+                    .addComponent(jTextPeliculaDuracion)
+                    .addComponent(jTextDni))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -169,7 +183,11 @@ public class vistaComprador extends javax.swing.JFrame {
                 .addComponent(jTextPeliculaDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(100, 149, 237));
@@ -275,12 +293,12 @@ public class vistaComprador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -288,29 +306,38 @@ public class vistaComprador extends javax.swing.JFrame {
 
     private void jButtonEnviarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarPeliculaActionPerformed
         // TODO add your handling code here:
-        
-        String titulo = jTextPeliculaTitulo.getText();
-        int duracion= Integer.parseInt(jTextPeliculaDuracion.getText()); 
-        String director = jTextPeliculaDirector.getText();
-        String origen = jTextOrigen.getText();
-        String genero = jTextPeliculaGenero.getText();
-        boolean enCartelera =jCheckBoxPerliculaEnCartelera.isSelected();
-        if(enCartelera!=true){
-            enCartelera=false;
+            try {
+
+        int dni = Integer.parseInt(jTextDni.getText());
+        String nombre = jTextPeliculaTitulo.getText();
+        String password = jTextPeliculaDuracion.getText();
+        String confirmar = jTextPeliculaDirector.getText();
+
+        if (!password.equals(confirmar)) {
+            JOptionPane.showMessageDialog(this, "las contraseñas no coinciden");
+            return;
         }
+
+        Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(jTextFecha.getText());
+
+        Comprador c = new Comprador(dni, nombre, fecha, password);
+
+        cd.insertar(c);
+
+        JOptionPane.showMessageDialog(this, "cuenta creada");
+
+        jTextDni.setText("");
+        jTextPeliculaTitulo.setText("");
+        jTextPeliculaDuracion.setText("");
+        jTextPeliculaDirector.setText("");
+        jTextOrigen.setText("");
+        jTextFecha.setText("");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "error");
+    }
+
         
-        Pelicula p = new Pelicula(titulo,duracion, director, origen, genero, enCartelera);
-        
-        try{
-            pd.guardarPelicula(p);
-            JOptionPane.showMessageDialog(this, "Pelicula agregada con extio ✅");
-            
-            cargarTablaPeliculas();
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Error al agregar pelicula ❌" + e.getMessage());
-        }
-        
-        cargarTablaPeliculas();
     }//GEN-LAST:event_jButtonEnviarPeliculaActionPerformed
 
     private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
@@ -375,6 +402,8 @@ public class vistaComprador extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField jTextDni;
+    private javax.swing.JTextField jTextFecha;
     private javax.swing.JTextField jTextOrigen;
     private javax.swing.JTextField jTextPeliculaDirector;
     private javax.swing.JTextField jTextPeliculaDuracion;
